@@ -1,0 +1,4 @@
+Marketplace
+
+1. Organization(Savdogar, Merchant, Magazin) - ro'yxatdan o'tadi va product(maxsulot)larini kiritadi.
+2. Client(foydalanuvchi, xaridor) - ro'yxatdan o'tadi va maxsulot tanlaydi, sotib oladi.
