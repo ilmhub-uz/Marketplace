@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Identity.Core.Managers;
+using Identity.Core.Providers;
 
 namespace Chat.Api.Controllers;
 
@@ -12,11 +13,16 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager _userManager;
     private ILogger<AccountController> _logger;
+    private readonly UserProvider _userProvider;
 
-    public AccountController(UserManager userManager, ILogger<AccountController> logger)
+    public AccountController(
+	    UserManager userManager,
+	    ILogger<AccountController> logger,
+	    UserProvider userProvider)
     {
         _userManager = userManager;
         _logger = logger;
+        _userProvider = userProvider;
     }
 
     [HttpPost("register")]
@@ -45,11 +51,11 @@ public class AccountController : ControllerBase
         return Ok(new { Token = token });
     }
 
-    [HttpGet]
+    [HttpGet("profile")]
     [Authorize]
     public async Task<IActionResult> Profile()
     {
-        var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var userId = _userProvider.UserId;
 
         var user = await _userManager.GetUser(userId);
         if (user == null)
@@ -58,5 +64,17 @@ public class AccountController : ControllerBase
         }
 
         return Ok(new UserModel(user));
+    }
+
+    [HttpGet("{userName}")]
+    public async Task<IActionResult> GetUser(string userName)
+    {
+	    var user = await _userManager.GetUser(userName);
+	    if (user == null)
+	    {
+		    return NotFound();
+	    }
+
+	    return Ok(new UserModel(user));
     }
 }

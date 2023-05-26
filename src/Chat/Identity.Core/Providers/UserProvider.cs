@@ -15,5 +15,5 @@ public class UserProvider
     protected HttpContext? Context => _contextAccessor.HttpContext;
 
     public string UserName => Context.User.FindFirstValue(ClaimTypes.Name);
-    public Guid UserId => Guid.Parse(Context.User.FindFirstValue(ClaimTypes.Name));
+    public Guid UserId => Guid.Parse(Context.User.FindFirstValue(ClaimTypes.NameIdentifier));
 }

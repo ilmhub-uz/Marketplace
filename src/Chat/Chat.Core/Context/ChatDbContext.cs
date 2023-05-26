@@ -1,4 +1,4 @@
-﻿using Chat.Core.Entites;
+﻿using Chat.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chat.Core.Context;

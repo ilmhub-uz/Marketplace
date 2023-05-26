@@ -1,10 +1,9 @@
-﻿namespace Identity.Core.Helpers
+﻿namespace Identity.Core.Helpers;
+
+public static class PasswordHasher
 {
-    public static class PasswordHasher
-    {
-        public static string GetPasswordHash(string password)
-        {
-            return "";
-        }
-    }
+	public static string GetPasswordHash(string password)
+	{
+		return "";
+	}
 }

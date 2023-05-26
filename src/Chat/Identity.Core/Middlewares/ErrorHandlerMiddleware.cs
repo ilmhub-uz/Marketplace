@@ -28,7 +28,7 @@ public class ErrorHandlerMiddleware
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await httpContext.Response.WriteAsJsonAsync(new
             {
-                Message = e.Message,
+                Error = e.Message,
             });
         }
     }

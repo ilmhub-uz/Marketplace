@@ -1,8 +1,8 @@
-﻿using Identity.Core.Entites;
-using Identity.Core.Models;
+﻿using Identity.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Identity.Core.Context;
+using Identity.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -68,5 +68,10 @@ public class UserManager
     public async Task<User?> GetUser(Guid userId)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+    }
+
+    public async Task<User?> GetUser(string userName)
+    {
+	    return await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
     }
 }

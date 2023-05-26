@@ -1,8 +1,7 @@
-﻿namespace Identity.Core.Models
+﻿namespace Identity.Core.Models;
+
+public class LoginUserModel
 {
-    public class LoginUserModel
-    {
-        public required string Password { get; set; }
-        public required string UserName { get; set; }
-    }
+	public required string Password { get; set; }
+	public required string UserName { get; set; }
 }

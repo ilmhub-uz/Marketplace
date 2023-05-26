@@ -1,4 +1,4 @@
-﻿using Identity.Core.Entites;
+﻿using Identity.Core.Entities;
 
 namespace Identity.Core.Models;
 

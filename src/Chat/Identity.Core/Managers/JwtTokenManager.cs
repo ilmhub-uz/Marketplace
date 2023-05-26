@@ -1,8 +1,8 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using Identity.Core.Entites;
 using Identity.Core.Options;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using Identity.Core.Entities;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.Core.Managers;

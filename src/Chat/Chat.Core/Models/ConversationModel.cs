@@ -1,6 +1,4 @@
-﻿using Chat.Core.Entites;
-
-namespace Chat.Core.Models;
+﻿namespace Chat.Core.Models;
 
 public class ConversationModel
 {

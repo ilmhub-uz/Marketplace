@@ -22,3 +22,15 @@ E:\Projects\JFA\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\Identity.Cor
 E:\Projects\JFA\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\refint\Identity.Core.dll
 E:\Projects\JFA\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\Identity.Core.pdb
 E:\Projects\JFA\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\ref\Identity.Core.dll
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\bin\Debug\net7.0\Identity.Core.deps.json
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\bin\Debug\net7.0\Identity.Core.dll
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\bin\Debug\net7.0\Identity.Core.pdb
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\Identity.Core.csproj.AssemblyReference.cache
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\Identity.Core.GeneratedMSBuildEditorConfig.editorconfig
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\Identity.Core.AssemblyInfoInputs.cache
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\Identity.Core.AssemblyInfo.cs
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\Identity.Core.csproj.CoreCompileInputs.cache
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\Identity.Core.dll
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\refint\Identity.Core.dll
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\Identity.Core.pdb
+E:\Ilmhub\Marketplace\src\Chat\Identity.Core\obj\Debug\net7.0\ref\Identity.Core.dll
