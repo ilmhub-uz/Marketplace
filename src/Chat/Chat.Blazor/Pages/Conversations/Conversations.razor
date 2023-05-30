@@ -1,0 +1,31 @@
+﻿@page "/chats"
+@using Chat.Blazor.Services
+@inject ConversationsService ConversationsService
+
+<h3>Conversations</h3>
+
+<div>
+	@foreach (var conversation in conversations)
+	{
+		<a href="/chats/@conversation.Id">@conversation.FromUserId</a>
+	}
+</div>
+
+@code {
+	[Parameter]
+	public string? ConversationId { get; set; }
+
+	private List<ConversationModel>? conversations = new List<ConversationModel>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		conversations = await ConversationsService.Get<List<ConversationModel>>("api/Conversations");
+	}
+
+	public class ConversationModel
+	{
+		public Guid Id { get; set; }
+
+		public Guid FromUserId { get; set; }
+	}
+}

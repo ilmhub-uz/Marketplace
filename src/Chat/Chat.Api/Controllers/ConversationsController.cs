@@ -26,7 +26,7 @@ public class ConversationsController : ControllerBase
         return await _conversationManager.GetConversations(_userProvider.UserId);
     }
 
-    [HttpGet("{conversationId}")]
+	[HttpGet("{conversationId}")]
     public async Task<List<MessageModel>> GetConversationMessages(Guid conversationId)
     {
         return await _conversationManager.GetConversationMessages(conversationId);

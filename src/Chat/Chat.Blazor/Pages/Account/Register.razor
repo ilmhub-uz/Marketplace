@@ -1,0 +1,65 @@
+﻿@page "/register"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+@if (IsLoading)
+{
+	<div class="spinner-border text-primary" role="status">
+       
+	</div>
+}
+else
+{
+	<div class="d-flex justify-content-center" style="flex-wrap:wrap;">
+		<div class="form-group row g-3 col-md-5" style="border-radius: 25px;
+    margin-top: 1rem;
+    padding: 2rem;
+    box-shadow: 0 0rem 3rem rgba(8,7,16,0.6)!important;">
+
+			<EditForm Model="@_userDto" OnValidSubmit="@CreateUser" >
+				<DataAnnotationsValidator/>
+				<ValidationSummary/>
+				<h1 class="col-12" style="text-align:center">Sign Up </h1>
+				
+				<label for="name">Name</label>
+				<InputText placeholder="Name" class="form-control" @bind-Value="@_userDto.Name"/>
+
+				<label for="UserName">UserName</label>
+				<InputText placeholder="Username" class="form-control" @bind-Value="@_userDto.UserName" />
+
+				<label for="Password">Password</label>
+				<InputText placeholder="Password" class="form-control" @bind-Value="@_userDto.Password" />
+
+				<label for="ConfirmPassword">Confirm Password</label>
+				<InputText placeholder="Confirm Password" class="form-control" @bind-Value="@_userDto.ConfirmPassword" />
+
+				<br/>
+				<button type="submit" class="btn btn-primary">Register</button>
+				<br/><br/>
+			</EditForm>
+		</div>
+	</div>
+}
+
+
+@code {
+	private bool IsLoading { get; set; } = false;
+	private readonly CreateUserModel _userDto = new();
+    
+	public async Task CreateUser()
+	{
+		var response = await Http.PostAsJsonAsync("/api/account/register", _userDto);
+		if (response.IsSuccessStatusCode)
+		{
+			NavigationManager.NavigateTo("/login");
+		}
+	}
+
+	public class CreateUserModel
+	{
+		public string Name { get; set; }
+		public string Password { get; set; }
+		public string ConfirmPassword { get; set; }
+		public string UserName { get; set; }
+	}
+}

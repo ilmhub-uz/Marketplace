@@ -1,0 +1,62 @@
+﻿@page "/login"
+@using Blazored.LocalStorage
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService Storage
+
+<div class="d-flex justify-content-center" style="flex-wrap:wrap;">
+	<div class="form-group row g-3 col-md-5" style="border-radius: 25px;
+    margin-top: 1rem;
+    padding: 2rem;
+    box-shadow: 0 0rem 3rem rgba(8,7,16,0.6)!important;">
+
+		<EditForm Model="@_userDto" OnValidSubmit="@LoginUser" >
+			<DataAnnotationsValidator/>
+			<ValidationSummary/>
+			<h1 class="col-12" style="text-align:center">Sign In </h1>
+
+			<label for="UserName">Username:</label>
+			<InputText placeholder="Username" class="form-control" @bind-Value="@_userDto.UserName" />
+
+			<label for="Password">Password:</label>
+			<InputText placeholder="Password" class="form-control" @bind-Value="@_userDto.Password" />
+            
+			<br/>
+			<button type="submit" class="btn btn-primary">Register</button>
+			<br/><br/>
+		</EditForm>
+	</div>
+</div>
+
+
+@code {
+
+	private readonly LoginUserModel _userDto = new();
+    
+	public async Task LoginUser()
+	{
+		var response = await Http.PostAsJsonAsync("/api/account/login", _userDto);
+		if (response.IsSuccessStatusCode)
+		{
+			var result = await response.Content.ReadFromJsonAsync<LoginResult>();
+
+			if (!string.IsNullOrEmpty(result?.Token))
+			{
+				await Storage.SetItemAsStringAsync("token", result.Token);
+				NavigationManager.NavigateTo("/profile");
+			}
+		}
+	}
+
+	public class LoginUserModel
+	{
+		public string Password { get; set; }
+		public string UserName { get; set; }
+	}
+
+
+	public class LoginResult
+	{
+		public string Token { get; set; }
+	}
+}

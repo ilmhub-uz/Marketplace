@@ -1,0 +1,32 @@
+﻿@page "/profile"
+@using Blazored.LocalStorage
+@inject HttpClient Http
+@inject ILocalStorageService Storage
+
+<h3>Profile</h3>
+
+<h1>Name: @user?.Name</h1>
+<h1>UserName: @user?.UserName</h1>
+
+@code {
+	private UserModel? user = new UserModel();
+
+	protected override async Task OnInitializedAsync()
+	{
+		var token = await Storage.GetItemAsStringAsync("token");
+
+		var request = new HttpRequestMessage(HttpMethod.Get, "/api/Account/profile");
+		request.Headers.Add("Authorization", $"Bearer {token}");
+
+		var response = await Http.SendAsync(request);
+
+		user = await response.Content.ReadFromJsonAsync<UserModel>();
+	}
+
+	public class UserModel
+	{
+		public Guid Id { get; set; }
+		public string? Name { get; set; }
+		public string UserName { get; set; }
+	}
+}
