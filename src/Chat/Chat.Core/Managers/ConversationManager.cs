@@ -69,6 +69,8 @@ public class ConversationManager
             Text = messageModel.Text
         };
 
+        //send to hub
+
         _dbContext.Messages.Add(message);
         await _dbContext.SaveChangesAsync();
     }

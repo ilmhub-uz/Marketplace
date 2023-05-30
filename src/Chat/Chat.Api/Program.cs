@@ -1,4 +1,5 @@
 using Chat.Api.Extensions;
+using Chat.Api.Hubs;
 using Chat.Core.Context;
 using Chat.Core.Managers;
 using Identity.Core.Context;
@@ -50,7 +51,12 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
 });
 builder.Services.AddIdentity(builder.Configuration);
 
+builder.Services.AddSingleton(typeof(UserConnectionIdService));
+//builder.Services.AddSingleton<UserConnectionIdService>();
+
 builder.Services.AddScoped<ConversationManager>();
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -74,6 +80,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseErrorHandlerMiddleware();
+
+app.MapHub<ConversationHub>("/hubs/conversation");
 
 app.MapControllers();
 
