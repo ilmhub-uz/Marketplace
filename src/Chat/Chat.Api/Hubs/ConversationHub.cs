@@ -28,6 +28,21 @@ public class ConversationHub : Hub
 		var item = _connectionIdService.ConnectionIds.First(c => c.Item2 == connectionId);
 		_connectionIdService.ConnectionIds.Remove(item);
 	}
+
+	public void JoinGroup(string groupId)
+	{
+		Groups.AddToGroupAsync(Context.ConnectionId, groupId);
+	}
+
+	public void LeaveGroup(string groupId)
+	{
+		Groups.RemoveFromGroupAsync(Context.ConnectionId, groupId);
+	}
+
+	public void SendGroupMessage(string groupId, string message)
+	{
+		Clients.Groups(groupId).SendAsync(message);
+	}
 }
 
 public class UserConnectionIdService
