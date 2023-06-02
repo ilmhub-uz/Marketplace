@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Common", "Marketplace.Common\Marketplace.Common.csproj", "{07415A2A-C21B-4C66-8B18-93AC2ECF374E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.ChatBlazor", "Marketplace.ChatBlazor\Marketplace.ChatBlazor.csproj", "{EB8C40E6-287A-4442-B075-73C1AA7BEBFE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Services.Chat", "Marketplace.Services.Chat\Marketplace.Services.Chat.csproj", "{51388834-79C9-4ACE-AA0D-D2B620A57992}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Services.Identity", "Marketplace.Services.Identity\Marketplace.Services.Identity.csproj", "{567B3D0F-0919-407B-8640-6DF3DE723EEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.ChatApi", "Marketplace.ChatApi\Marketplace.ChatApi.csproj", "{D79F13F4-E78A-4757-8A19-12839DF7F16C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{385ACFF1-6C3C-42F8-A519-BFF7014B345E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C88CFDA-2B68-410B-9456-4611BAAFCC1C}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07415A2A-C21B-4C66-8B18-93AC2ECF374E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07415A2A-C21B-4C66-8B18-93AC2ECF374E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07415A2A-C21B-4C66-8B18-93AC2ECF374E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07415A2A-C21B-4C66-8B18-93AC2ECF374E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB8C40E6-287A-4442-B075-73C1AA7BEBFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB8C40E6-287A-4442-B075-73C1AA7BEBFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB8C40E6-287A-4442-B075-73C1AA7BEBFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB8C40E6-287A-4442-B075-73C1AA7BEBFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51388834-79C9-4ACE-AA0D-D2B620A57992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51388834-79C9-4ACE-AA0D-D2B620A57992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51388834-79C9-4ACE-AA0D-D2B620A57992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51388834-79C9-4ACE-AA0D-D2B620A57992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{567B3D0F-0919-407B-8640-6DF3DE723EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{567B3D0F-0919-407B-8640-6DF3DE723EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{567B3D0F-0919-407B-8640-6DF3DE723EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{567B3D0F-0919-407B-8640-6DF3DE723EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D79F13F4-E78A-4757-8A19-12839DF7F16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D79F13F4-E78A-4757-8A19-12839DF7F16C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D79F13F4-E78A-4757-8A19-12839DF7F16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D79F13F4-E78A-4757-8A19-12839DF7F16C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{07415A2A-C21B-4C66-8B18-93AC2ECF374E} = {385ACFF1-6C3C-42F8-A519-BFF7014B345E}
+		{51388834-79C9-4ACE-AA0D-D2B620A57992} = {385ACFF1-6C3C-42F8-A519-BFF7014B345E}
+		{567B3D0F-0919-407B-8640-6DF3DE723EEE} = {385ACFF1-6C3C-42F8-A519-BFF7014B345E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B13080AE-6F52-4F14-B91F-33CBF3B57197}
+	EndGlobalSection
+EndGlobal
