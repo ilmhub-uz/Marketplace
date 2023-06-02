@@ -4,6 +4,8 @@ services:
   identity:
     image: identity
     container_name: identity
+    depends_on:
+        - identity_db
     build:
         context: .
         dockerfile: Dockerfile.Identity
@@ -13,6 +15,8 @@ services:
   chat:
     image: chat
     container_name: chat
+    depends_on:
+        - chat_db
     build:
         context: .
         dockerfile: Dockerfile.Chat
