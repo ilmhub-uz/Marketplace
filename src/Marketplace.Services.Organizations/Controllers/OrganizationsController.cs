@@ -17,11 +17,12 @@ public class OrganizationsController : ControllerBase
 		GET    api/organizations/{id}/users
 	 */
 
+	/*
 	[HttpPut]
 	[OrganizationOwner]
 	public async Task<OrganizationModel> Update(
 		Guid organizationId,
 		CreateOrganizationModel organizationModel)
 	{
-	}
+	}*/
 }
