@@ -26,19 +26,14 @@ public class OrganizationManager
             .Include(o => o.Addresses)
             .Include(o => o.Users)
             .ToListAsync();
-        return organizations
-            .Select(organization => new OrganizationModel()
-                { Id = organization.Id,
-                    Name = organization.Name, 
-                    Description = organization.Description,
-                    Logo = organization.Logo,
-                    Contact = organization.Contact, 
-                    Users = organization.Users,
-                    Addresses = organization.Addresses!
-                        .Select(address => new OrganizationAddressModel()
-                            { Id = address.Id, Address = address.Address })
-                        .ToList() })
-            .ToList();
+
+        var organizationModels = new List<OrganizationModel>();
+        foreach (var organization in organizations)
+        {
+            organizationModels.Add(ParseToOrganizationModel(organization));
+        }
+
+        return organizationModels;
     }
 
 	public async Task<OrganizationModel> Create(CreateOrganizationModel organizationModel)
@@ -52,29 +47,20 @@ public class OrganizationManager
 			Contact = organizationModel.Contact,
         };
 
-        organization.Addresses = organizationModel.Addresses!.Select(model => new OrganizationAddress()
+        if (organizationModel.Addresses != null)
         {
-            Id = Guid.NewGuid(),
-            OrganizationId = organization.Id,
-            Organization = organization,
-            Address = model.Address
-        }).ToList();
+            organization.Addresses = organizationModel.Addresses!.Select(model => new OrganizationAddress()
+            {
+                Id = Guid.NewGuid(),
+                OrganizationId = organization.Id,
+                Organization = organization,
+                Address = model.Address
+            }).ToList();
+        }
         _organizationsDbContext.Organizations.Add(organization);
 
         await _organizationsDbContext.SaveChangesAsync();
-        return new OrganizationModel()
-        {
-            Id = organization.Id,
-            Name = organization.Name,
-            Description = organization.Description,
-            Logo = organization.Logo,
-            Contact = organization.Contact,
-            Users = organization.Users,
-            Addresses = organization.Addresses!
-                .Select(address => new OrganizationAddressModel()
-                    { Id = address.Id, Address = address.Address })
-                .ToList()
-        };
+        return ParseToOrganizationModel(organization);
     }
 
 	public async Task<OrganizationModel> GetById(Guid organizationId)
@@ -82,19 +68,7 @@ public class OrganizationManager
 		var organization = await _organizationsDbContext.Organizations
 			.Where(o => o.Id == organizationId)
 			.FirstOrDefaultAsync();
-        return new OrganizationModel()
-        {
-            Id = organization.Id,
-            Name = organization.Name,
-            Description = organization.Description,
-            Logo = organization.Logo,
-            Contact = organization.Contact,
-            Users = organization.Users,
-            Addresses = organization.Addresses!
-                .Select(address => new OrganizationAddressModel()
-                    { Id = address.Id, Address = address.Address })
-                .ToList()
-        };
+        return ParseToOrganizationModel(organization!);
 
     }
 
@@ -105,29 +79,44 @@ public class OrganizationManager
 		var organization = await _organizationsDbContext.Organizations
 			.Where(o => o.Id == organizationId)
 			.FirstOrDefaultAsync();
-        organization.Name = organizationModel.Name;
+        organization!.Name = organizationModel.Name;
         organization.Description = organizationModel.Description;
         organization.Logo = await FileService.SaveOrganizationLogo(organizationModel.Logo!);
         organization.Contact = organizationModel.Contact;
-        for (int i = 0; i < organizationModel.Addresses!.Count; i++)
+        if (organizationModel.Addresses != null)
         {
-            organization.Addresses![i].Address = organizationModel.Addresses[i].Address;
-        }
+            for (int i = 0; i < organizationModel.Addresses!.Count; i++)
+            {
+                organization.Addresses![i].Address = organizationModel.Addresses[i].Address;
+            }
 
+        }
         await _organizationsDbContext.SaveChangesAsync();
-        return new OrganizationModel()
-        {
-            Id = organization.Id,
-            Name = organization.Name,
-            Description = organization.Description,
-            Logo = organization.Logo,
-            Contact = organization.Contact,
-            Users = organization.Users,
-            Addresses = organization.Addresses!
-                .Select(address => new OrganizationAddressModel()
-                    { Id = address.Id, Address = address.Address })
-                .ToList()
-        };
+        return ParseToOrganizationModel(organization);
 
     }
+    
+    private OrganizationModel ParseToOrganizationModel(Organization model)
+    {
+        var organizationModel = new OrganizationModel()
+        {
+            Id = model.Id,
+            Name = model.Name,
+            Description = model.Description,
+            Logo = model.Logo,
+            Contact = model.Contact,
+            Users = model.Users,
+        };
+
+        if (model.Addresses != null)
+        {
+
+            organizationModel.Addresses = model.Addresses!
+                .Select(address => new OrganizationAddressModel()
+                    { Id = address.Id, Address = address.Address })
+                .ToList();
+        }
+        return organizationModel;
+    }
+
 }
