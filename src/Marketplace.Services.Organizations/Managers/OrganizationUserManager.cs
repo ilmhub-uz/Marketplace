@@ -9,8 +9,8 @@ public class OrganizationUserManager
 
 	}
 
-	public async Task<OrganizationUser> GetOrganizationUsers()
+	/*public async Task<OrganizationUser> GetOrganizationUsers()
 	{
 
-	}
+	}*/
 }

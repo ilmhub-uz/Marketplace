@@ -5,7 +5,7 @@ namespace Marketplace.Services.Organizations.Extensions;
 
 public static class WebApplicationExtensions
 {
-	public static void MigrateChatDbContext(this WebApplication app)
+	public static void MigrateOrganizationDbContext(this WebApplication app)
 	{
 		if (app.Services.GetService<OrganizationsDbContext>() != null)
 		{
