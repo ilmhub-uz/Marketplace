@@ -1,12 +1,17 @@
 using Marketplace.Services.Organizations.Context;
 using Marketplace.Services.Organizations.Extensions;
+using Marketplace.Services.Organizations.Managers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+	options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -40,12 +45,16 @@ builder.Services.AddDbContext<OrganizationsDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("OrganizationsDbContext"));
 });
 builder.Services.AddIdentity(builder.Configuration);
+builder.Services.AddScoped<OrganizationManager>();
+builder.Services.AddScoped<OrganizationUserManager>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseStaticFiles();
 
 app.UseCors(cors =>
 {
@@ -54,7 +63,6 @@ app.UseCors(cors =>
         .AllowAnyOrigin();
 });
 app.MigrateOrganizationDbContext();
-
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

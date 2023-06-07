@@ -10,7 +10,6 @@ public class FileService
             Directory.CreateDirectory(folder);
     }
     
-
     public static async Task<string> SaveOrganizationLogo(IFormFile file)
     {
         return await SaveFile(file, "OrganizationLogos");
@@ -18,7 +17,7 @@ public class FileService
 
     private static async Task<string> SaveFile(IFormFile file, string folder)
     {
-        CheckDirectory(folder);
+        CheckDirectory(Path.Combine(Wwwroot, folder));
         var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
         var ms = new MemoryStream();
         await file.CopyToAsync(ms);

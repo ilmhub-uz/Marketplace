@@ -15,7 +15,9 @@ public class OrganizationUserManager
 
     public async Task<OrganizationUser> AddUser(Guid userId, Guid organizationId)
     {
-        var organization = await _context.Organizations.FirstOrDefaultAsync(o => o.Id == organizationId);
+        var organization = await _context.Organizations
+	        .Include(o => o.Users)
+	        .FirstOrDefaultAsync(o => o.Id == organizationId);
         if (organization == null)
             throw new Exception("Not found");
 
@@ -25,25 +27,37 @@ public class OrganizationUserManager
             UserId = userId,
             UserRole = OrganizationUserRole.Manager
         };
+
         organization.Users!.Add(organizationUser);
         await _context.SaveChangesAsync();
+
         return organizationUser;
     }
 
     public async Task<List<OrganizationUser>> GetOrganizationUsers(Guid organizationId)
     {
-        var organization = await _context.Organizations.FirstOrDefaultAsync(o => o.Id == organizationId);
+        var organization = await _context.Organizations
+	        .Include(o => o.Users)
+	        .FirstOrDefaultAsync(o => o.Id == organizationId);
+
         if (organization == null)
             throw new Exception("Not found");
+
         var organizationUsers = organization.Users!.ToList();
         return organizationUsers;
     }
+
     public async Task<OrganizationUser>? GetOrganizationUser(Guid organizationId, Guid userId)
     {
-        var organization = await _context.Organizations.FirstOrDefaultAsync(o => o.Id == organizationId);
+        var organization = await _context.Organizations
+	        .Include(o => o.Users)
+	        .FirstOrDefaultAsync(o => o.Id == organizationId);
+
         if (organization == null)
             throw new Exception("Not found");
+
         var organizationUser = organization.Users!.FirstOrDefault(u => u.UserId == userId);
+
         return organizationUser!;
     }
 }
