@@ -78,3 +78,4 @@ services:
 volumes:
   chat_db_data:  
   identity_db_data:
+  organization_db_data:  

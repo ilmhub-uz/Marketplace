@@ -4,7 +4,7 @@ namespace Marketplace.Services.Organizations.Managers;
 
 public class OrganizationUserManager
 {
-	public async Task AddUser(Guid userId)
+	public async Task AddUser(Guid organizationId, Guid userId)
 	{
 
 	}

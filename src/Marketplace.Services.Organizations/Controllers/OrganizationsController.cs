@@ -1,6 +1,4 @@
-﻿using Marketplace.Services.Organizations.Models;
-using Microsoft.AspNetCore.Mvc;
-using static Marketplace.Services.Organizations.Filters.OrganizationOwnerFilterAttribute;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Marketplace.Services.Organizations.Controllers;
 
