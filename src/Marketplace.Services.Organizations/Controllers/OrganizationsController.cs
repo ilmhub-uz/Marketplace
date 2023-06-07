@@ -2,6 +2,7 @@
 using Marketplace.Services.Organizations.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Marketplace.Services.Organizations.Filters.OrganizationOwnerFilterAttribute;
 
 namespace Marketplace.Services.Organizations.Controllers;
 
@@ -26,7 +27,6 @@ public class OrganizationsController : ControllerBase
         _organizationManager = organizationManager;
     }
 
-
     [HttpGet]
     public async Task<IActionResult> GetOrganizations()
     {
@@ -46,6 +46,7 @@ public class OrganizationsController : ControllerBase
     }
 
     [HttpPut]
+    [OrganizationOwner]
     public async Task<IActionResult> UpdateOrganization(Guid organizationId, [FromForm] CreateOrganizationModel organizationModel)
     {
         return Ok(await _organizationManager.Update(organizationId, organizationModel));
