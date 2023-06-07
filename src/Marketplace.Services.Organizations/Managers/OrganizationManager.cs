@@ -57,6 +57,14 @@ public class OrganizationManager
                 Address = model.Address
             }).ToList();
         }
+
+        var organizationUser = new OrganizationUser()
+        {
+            OrganizationId = organization.Id,
+            UserId = _userProvider.UserId,
+            UserRole = OrganizationUserRole.Owner
+        };
+        organization.Users = new List<OrganizationUser> { organizationUser };
         _organizationsDbContext.Organizations.Add(organization);
 
         await _organizationsDbContext.SaveChangesAsync();
