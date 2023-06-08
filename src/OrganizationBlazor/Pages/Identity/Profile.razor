@@ -1,0 +1,36 @@
+﻿@page "/Profile"
+@using OrganizationBlazor.Models.IdentityModels
+@using Blazored.LocalStorage
+    using OrganizationBlazor.Models.IdentityModels
+@inject HttpClient Http
+@inject ILocalStorageService Storage
+<h3>Profile</h3>
+@{
+    <p>Token : @token</p>
+
+    if (user != null)
+    {
+        <p>Name : @user.Name</p>
+        
+    }
+    else
+    {
+        <MudProgressCircular Color = "Color.Primary" Indeterminate="true" />
+    }
+}
+@code {
+    UserModel? user { get; set; }
+    string token;
+    protected override async Task OnInitializedAsync()
+    {
+         token = await Storage.GetItemAsStringAsync("token"); 
+
+        var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:7070/api/Account/profile");
+        request.Headers.Add("Authorization",$"Bearer {token}");
+        var response = await Http.SendAsync(request);
+        user = await response.Content.ReadFromJsonAsync<UserModel>();
+    }
+
+    
+
+}

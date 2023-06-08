@@ -1,0 +1,53 @@
+﻿@page "/getUser"
+@using OrganizationBlazor.Models.OrganizationModels
+@using OrganizationBlazor.Services
+@using Blazored.LocalStorage
+@inject OrganizationService OrganizationService
+@inject HttpClient _httpClient;
+@inject ILocalStorageService _storage
+<h3>GetOrganizationUsers</h3>
+
+
+<form class="row g-3" style="width: 400px " enctype="multipart/form-data">
+    <input name="Name" @bind="organizationId" class="form-control" type="text" placeholder="OrganizationId" />
+    <input name="Name" @bind="userId" class="form-control" type="text" placeholder="UserId" />
+    <button class="form-control" @onclick="Get">Sign In</button>
+</form>
+
+@{
+    <h1>User</h1>
+    
+        <table id="customers">
+            <tr>
+                <th>OrganizationId</th>
+                <th>UserId</th>
+                <th>UserRole</th>
+            </tr>
+            <tr>
+            <td>@organizationUser.OrganizationId</td>
+            <td>@organizationUser.UserId</td>
+            <td>@organizationUser.UserRole</td>
+
+            </tr>
+        </table>
+    }
+}
+
+
+@code {
+    private Guid organizationId;
+    private Guid userId;
+    private OrganizationUser organizationUser = new();
+
+    private async Task Get()
+    {
+        var token = await _storage.GetItemAsStringAsync("token");
+        string url = "http://localhost:7073/api/organization";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add("Authorization", $"Bearer {token}");
+        request.Content = JsonContent.Create(new { organizationId ,userId});
+        var response = await _httpClient.SendAsync(request);
+        organizationUser = (await response.Content.ReadFromJsonAsync<OrganizationUser>())!;
+    }
+}
+

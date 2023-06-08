@@ -1,0 +1,38 @@
+﻿@page "/login"
+@using Blazored.LocalStorage
+@using OrganizationBlazor.Models.IdentityModels
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService Storage
+<h3>Login</h3>
+
+
+
+<form  class="row g-3" style="width: 400px ">
+    <input name="Username" @bind="loginAccount.Username" class="form-control" type="text" placeholder="Username" />
+    <input name="Password" @bind="loginAccount.Password" class="form-control" type="password" placeholder="Password" />
+    <button class="form-control" @onclick="RegisterUser" >Sign In</button>
+</form>
+
+@code {
+    
+    
+    private LoginUserModel loginAccount = new LoginUserModel();
+    private async Task RegisterUser()
+    {
+        var response = await Http.PostAsJsonAsync("http://localhost:7070/api/Account/login", loginAccount);
+        if (response.IsSuccessStatusCode)
+       {
+           var result = await response.Content.ReadFromJsonAsync<LoginResult>();
+
+           if (!string.IsNullOrEmpty(result?.Token))
+           {
+               await Storage.SetItemAsStringAsync("token", result.Token);
+               NavigationManager.NavigateTo("/profile");
+           }
+       }
+       
+
+    }
+
+}

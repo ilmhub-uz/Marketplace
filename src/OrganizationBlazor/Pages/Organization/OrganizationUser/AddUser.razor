@@ -1,0 +1,28 @@
+﻿@page "/addUser"
+@using Blazored.LocalStorage
+@inject HttpClient _httpClient;
+@inject ILocalStorageService _storage
+<h3>AddUser</h3>
+<form   class="row g-3" style="width: 400px " enctype="multipart/form-data">
+    <input name="Photo" @bind="userId" class="form-control" type="text" placeholder="userId" />
+    <input name="Name" @bind="organizationId" class="form-control" type="text" placeholder="OrganizationId" />
+    <button class="form-control" @onclick="Add">Sign In</button>
+</form>
+
+
+
+@code {
+    private Guid userId;
+    private Guid organizationId;
+
+
+    private async Task Add()
+    {
+        var token = await _storage.GetItemAsStringAsync("token");
+        string url = "http://localhost:7073/api/organizations";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add("Authorization", $"Bearer {token}");
+        request.Content = JsonContent.Create(new { userId, organizationId });
+        var response = await _httpClient.SendAsync(request);
+    }
+}

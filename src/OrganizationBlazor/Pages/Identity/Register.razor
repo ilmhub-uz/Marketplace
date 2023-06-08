@@ -1,0 +1,24 @@
+﻿@page "/register"
+@using OrganizationBlazor.Models.IdentityModels
+@inject HttpClient Http
+<h3>Register</h3>
+
+
+<form   class="row g-3" style="width: 400px " enctype="multipart/form-data">@*
+    <input name="Photo" @bind="createUser." class="form-control" type="file" />*@
+    <input name="Name" @bind="createUser.Name" class="form-control" type="text" placeholder="Name" />
+    <input name="Username" @bind="createUser.Username" class="form-control" type="text" placeholder="UserName" />
+    <input name="Password" @bind="createUser.Password" class="form-control" type="password" placeholder="Password" />
+    <input name="ConfirmPassword" @bind="createUser.ConfirmPassword" class="form-control" type="password" placeholder="Confirm password" />
+    <button class="form-control"  @onclick="LoginAccount" >Sign Up</button>
+</form>
+
+@code {
+   
+    private CreateUserModel createUser = new CreateUserModel();
+    private async Task LoginAccount()
+    {
+        await Http.PostAsJsonAsync("http://localhost:7070/api/Account/register", createUser);
+    }
+
+}

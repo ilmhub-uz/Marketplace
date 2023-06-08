@@ -8,8 +8,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddBlazoredLocalStorageAsSingleton();
-builder.Services.AddSingleton<ConversationsService>();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<ConversationsService>();
 
 builder.Services.AddScoped(sp => new HttpClient
 {
