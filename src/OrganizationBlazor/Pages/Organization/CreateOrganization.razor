@@ -1,0 +1,34 @@
+﻿@page "/create"
+@using OrganizationBlazor.Models.OrganizationModels
+@using OrganizationBlazor.Services
+<h3>CreateOrganization</h3>
+@inject HttpClient Http
+@inject OrganizationService OrganizationService
+<form class="row g-3" style="width: 400px " enctype="multipart/form-data">
+    <input name="Photo" @bind="createOrganization.Logo" class="form-control" type="file" />
+    <input name="Name" @bind="createOrganization.Name" class="form-control" type="text" placeholder="Name" />
+    <input name="Username" @bind="createOrganization.Description" class="form-control" type="text" placeholder="Description" />
+    <input name="Password" @bind="createOrganization.Contact" class="form-control" type="password" placeholder="Contact" />
+    <input name="ConfirmPassword" @bind="address.Address" class="form-control" type="password" placeholder="Confirm password" />
+    <button class="form-control" @onclick="AddOrganization">Create</button>
+</form>
+
+@code {
+
+
+    
+
+    private CreateOrganizationModel createOrganization = new CreateOrganizationModel();
+    private CreateAddressModel address = new CreateAddressModel();
+
+    private async Task AddOrganization()
+    {
+        createOrganization.Addresses.Add(address);
+        await OrganizationService.Post<CreateOrganizationModel>("http://localhost:7073/api/organization", createOrganization);
+        
+    }
+
+}
+
+
+

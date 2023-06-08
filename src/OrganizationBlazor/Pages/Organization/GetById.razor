@@ -1,0 +1,71 @@
+﻿@page "/getOrganizationById"
+@using Blazored.LocalStorage
+@using OrganizationBlazor.Models.OrganizationModels
+@inject HttpClient _httpClient;
+@inject ILocalStorageService _storage
+<h3>GetOrganizationById</h3>
+
+
+<div class="form-control">
+
+    <input name="ConfirmPassword" @bind="id" class="form-control" type="password" placeholder="Enter organizationId" />
+    <button class="form-control" @onclick="Search">Search</button>
+</div>
+
+
+@{
+    if (model != null)
+    {
+        <table id="customers">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Logo</th>
+                <th>Contact</th>
+                <th>Country</th>
+                <th>Addresses </th>
+            </tr>
+            <tr>
+                <td>@model.Id</td>
+                <td>@model.Name</td>
+                <td>@model.Description</td>
+                <td>@model.Logo</td>
+                <td>@model.Contact</td>
+                <td>Country</td>
+                <td>
+                    <table id="customers">
+                        @foreach (var address in model.Addresses!)
+                        {
+                            <tr>
+                                <th>Address</th>
+                            </tr>
+                            <tr>
+                                <td>address.Address</td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+
+            </tr>
+        </table>
+    }
+}
+
+
+
+@code {
+    private Guid id;
+    private OrganizationModel model = new ();
+
+    private async Task Search()
+    {
+        var token = await _storage.GetItemAsStringAsync("token");
+        string url = "http://localhost:7073/api/organization";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add("Authorization", $"Bearer {token}");
+        request.Content = JsonContent.Create(id);
+        var response = await _httpClient.SendAsync(request);
+        model =  (await response.Content.ReadFromJsonAsync<OrganizationModel>())!;
+    }
+}

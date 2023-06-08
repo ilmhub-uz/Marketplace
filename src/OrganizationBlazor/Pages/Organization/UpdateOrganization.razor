@@ -1,0 +1,42 @@
+﻿@page "/updateOrganization"
+@using OrganizationBlazor.Models.OrganizationModels
+@using OrganizationBlazor.Services
+@using Blazored.LocalStorage
+@inject HttpClient _httpClient;
+@inject ILocalStorageService _storage
+<h3>UpdateOrganization</h3>
+
+@inject HttpClient Http
+@inject OrganizationService OrganizationService
+<form class="row g-3" style="width: 400px" enctype="multipart/form-data">
+    <input name="ConfirmPassword" @bind="id" class="form-control" type="password" placeholder="Enter organizationId" />
+    <br/>
+    <input name="Photo" @bind="createOrganization.Logo" class="form-control" type="file"/>
+    <input name="Name" @bind="createOrganization.Name" class="form-control" type="text" placeholder="Name"/>
+    <input name="Username" @bind="createOrganization.Description" class="form-control" type="text" placeholder="Description"/>
+    <input name="Password" @bind="createOrganization.Contact" class="form-control" type="password" placeholder="Contact"/>
+    <input name="ConfirmPassword" @bind="address.Address" class="form-control" type="password" placeholder="Confirm password"/>
+    <button class="form-control" @onclick="Upgrade">Create</button>
+</form>
+
+@code {
+
+
+
+
+    private CreateOrganizationModel createOrganization = new CreateOrganizationModel();
+    private CreateAddressModel address = new CreateAddressModel();
+    private Guid id;
+    private async Task Upgrade()
+    {
+        var token = await _storage.GetItemAsStringAsync("token");
+        string url = "http://localhost:7073/api/organization";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add("Authorization", $"Bearer {token}");
+        createOrganization.Addresses.Add(address);
+        request.Content = JsonContent.Create(new { id, createOrganization });
+        var response = await _httpClient.SendAsync(request);
+
+    }
+
+}

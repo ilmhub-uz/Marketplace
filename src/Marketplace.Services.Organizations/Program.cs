@@ -54,7 +54,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseStaticFiles();
+
 
 app.UseCors(cors =>
 {
@@ -63,7 +63,7 @@ app.UseCors(cors =>
         .AllowAnyOrigin();
 });
 app.MigrateOrganizationDbContext();
-
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
