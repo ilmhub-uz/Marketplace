@@ -58,6 +58,11 @@
 - [x] moq,
 - [x] fluentassertions 
 
+- [x] elastic search
+- [x] hangfire
+- [x] grpc
+- [x] odata
+
 - [x] request rate limit
 - [x] load balancing in microservices 
 - [x] api gateway
