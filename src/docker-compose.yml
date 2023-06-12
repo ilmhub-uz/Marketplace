@@ -23,15 +23,6 @@ services:
     ports:
         - '7071:80'
 
-  chat_gateway:
-    image: chat_gateway
-    container_name: chat_gateway
-    build:
-        context: .
-        dockerfile: Dockerfile.ChatGateway
-    ports:
-        - '7072:80'
-
   organization:
     image: organization
     container_name: organization
@@ -43,6 +34,17 @@ services:
     volumes:
       - organization_data:/var/lib/organization/data/
     
+  product:
+    image: product
+    container_name: product
+    build:
+        context: .
+        dockerfile: Dockerfile.Products
+    ports:
+        - '7074:80'
+    volumes:
+      - product_data:/var/lib/product/data/
+ 
 
   identity_db:
     image: postgres:latest
@@ -82,4 +84,5 @@ volumes:
   chat_db_data:  
   identity_db_data:
   organization_db_data:
-  organization_data:  
+  organization_data:
+  product_data:  

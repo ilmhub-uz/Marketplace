@@ -51,5 +51,4 @@ public class OrganizationsController : ControllerBase
     {
         return Ok(await _organizationManager.Update(organizationId, organizationModel));
     }
-
 }
