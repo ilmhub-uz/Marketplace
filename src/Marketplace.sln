@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{38
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C88CFDA-2B68-410B-9456-4611BAAFCC1C}"
 	ProjectSection(SolutionItems) = preProject
+		docker-compose-front.yml = docker-compose-front.yml
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
@@ -26,7 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketPlace.Api", "MarketPl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketPlace.Organizations.Api", "MarketPlace.Organizations.Api\MarketPlace.Organizations.Api.csproj", "{87DDD363-F92E-4F95-B297-D94E4F35BEB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Services.Products", "Marketplace.Services.Products\Marketplace.Services.Products.csproj", "{B05FD937-CCDC-44F5-A542-BCE7C9E858D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Services.Products", "Marketplace.Services.Products\Marketplace.Services.Products.csproj", "{B05FD937-CCDC-44F5-A542-BCE7C9E858D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Blazor", "Marketplace.Blazor\Marketplace.Blazor.csproj", "{4337AA06-A8C8-42B7-8EA0-B32DC962AE5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Organizations.Blazor", "Marketplace.Organizations.Blazor\Marketplace.Organizations.Blazor.csproj", "{FF962F07-CD6F-4092-B51D-E82E09388FED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +67,14 @@ Global
 		{B05FD937-CCDC-44F5-A542-BCE7C9E858D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B05FD937-CCDC-44F5-A542-BCE7C9E858D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B05FD937-CCDC-44F5-A542-BCE7C9E858D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4337AA06-A8C8-42B7-8EA0-B32DC962AE5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4337AA06-A8C8-42B7-8EA0-B32DC962AE5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4337AA06-A8C8-42B7-8EA0-B32DC962AE5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4337AA06-A8C8-42B7-8EA0-B32DC962AE5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF962F07-CD6F-4092-B51D-E82E09388FED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF962F07-CD6F-4092-B51D-E82E09388FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF962F07-CD6F-4092-B51D-E82E09388FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF962F07-CD6F-4092-B51D-E82E09388FED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +87,8 @@ Global
 		{C348B8A6-0BA7-47DC-83E5-4E6C6A573854} = {1E3104D5-9E34-4BF2-A49B-8D1D7DA92F23}
 		{87DDD363-F92E-4F95-B297-D94E4F35BEB0} = {1E3104D5-9E34-4BF2-A49B-8D1D7DA92F23}
 		{B05FD937-CCDC-44F5-A542-BCE7C9E858D4} = {385ACFF1-6C3C-42F8-A519-BFF7014B345E}
+		{4337AA06-A8C8-42B7-8EA0-B32DC962AE5B} = {8671E63C-B0BE-468C-BDDB-249A8AF91C02}
+		{FF962F07-CD6F-4092-B51D-E82E09388FED} = {8671E63C-B0BE-468C-BDDB-249A8AF91C02}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B13080AE-6F52-4F14-B91F-33CBF3B57197}

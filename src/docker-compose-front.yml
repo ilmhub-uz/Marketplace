@@ -1,0 +1,20 @@
+﻿version: '3.7'
+
+services:
+  marketplace-blazor:
+    image: marketplace-blazor
+    container_name: marketplace-blazor
+    build:
+        context: Marketplace.Blazor
+        dockerfile: Dockerfile
+    ports:
+        - '8070:80'
+
+  marketplace-organization-blazor:
+    image: marketplace-organization-blazor
+    container_name: marketplace-organization-blazor
+    build:
+        context: Marketplace.Organizations.Blazor
+        dockerfile: Dockerfile
+    ports:
+        - '8071:80'
