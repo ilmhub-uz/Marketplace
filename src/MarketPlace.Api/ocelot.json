@@ -15,7 +15,7 @@
         },
         {
             "UpstreamPathTemplate": "/products/{everything}",
-            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+            "UpstreamHttpMethod": [ "GET" ],
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -28,7 +28,7 @@
         },
         {
             "UpstreamPathTemplate": "/categories/{everything}",
-            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+            "UpstreamHttpMethod": [ "GET"],
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -41,7 +41,7 @@
         },
         {
             "UpstreamPathTemplate": "/organizations/{everything}",
-            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+            "UpstreamHttpMethod": [ "GET" ],
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
