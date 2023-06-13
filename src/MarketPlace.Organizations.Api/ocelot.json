@@ -12,6 +12,44 @@
             ],
             "DownstreamPathTemplate": "/api/account/{everything}"
 
+        },
+        {
+            "UpstreamPathTemplate": "/products/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "product",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/products/{everything}"
+        },
+        {
+            "UpstreamPathTemplate": "/categories/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "product",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/categories/{everything}"
+
+        },
+        {
+            "UpstreamPathTemplate": "/organizations/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "organization",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/organizations/{everything}"
+
         }
     ]
 }
