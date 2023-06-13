@@ -1,5 +1,4 @@
-﻿using Marketplace.Services.Products.Entities;
-using Marketplace.Services.Products.Managers;
+﻿using Marketplace.Services.Products.Managers;
 using Marketplace.Services.Products.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,30 +20,7 @@ public class CategoriesController : ControllerBase
     {
         var categories = await _categoryManager.GetCategories();
 
-        return Ok(await MapTo(categories));
-    }
-
-
-    private async Task<List<CategoryModel>> MapTo(List<CategoryModel> categories)
-    {
-        var categoriesModels = new List<CategoryModel>();
-        foreach (var category in categories)
-        {
-            categoriesModels.Add(await MapToDto(category));
-        }
-
-        return categoriesModels;
-    }
-
-    private async Task<CategoryModel> MapToDto(Category category)
-    {
-        await _context.Entry(category).Collection(c => c.Children).LoadAsync();
-        return new CategoryModel()
-        {
-            Id = category.Id,
-            Name = category.Name,
-            ChildCategories = await MapTo(category.ChildCategories)
-        };
+        return Ok(categories);
     }
 
 
