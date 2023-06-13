@@ -15,7 +15,6 @@ public class CategoriesController : ControllerBase
         _categoryManager = categoryManager;
     }
 
-
     [HttpGet]
     public async Task<IActionResult> GetCategories()
     {
