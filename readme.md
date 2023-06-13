@@ -1,5 +1,9 @@
 
 # MarketPlace
+- `docker-compose build`
+- `docker-compose up`
+- `docker-compose -f docker-compose-front.yml build`
+- `docker-compose -f docker-compose-front.yml up`
 
 
 # Identity.API
