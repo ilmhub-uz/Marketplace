@@ -78,10 +78,7 @@ public class CategoryManager
         {
             Id = category.Id,
             Name = category.Name,
-            ParentId = category.ParentId,
-            ChildCategories = category.ChildCategories,
-            Products = category.Products,
-            
+            ParentId = category.ParentId
         };
    }
 

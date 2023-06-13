@@ -1,4 +1,5 @@
 ﻿using Marketplace.Services.Products.Entities;
+using Marketplace.Services.Products.FileServices;
 using Marketplace.Services.Products.Models;
 using Marketplace.Services.Products.Repositories;
 
@@ -29,7 +30,7 @@ public class ProductManager
         return ParseToProductModel(await _repository.GetProductById(category, productId));
     }
 
-    public async Task<ProductModel> AddProduct(int categoryId, ProductModel model)
+    public async Task<ProductModel> AddProduct(int categoryId, CreateProductModel model)
     {
         var category = _categoryRepository.Categories.FirstOrDefault(c => c.Id == categoryId);
         if (category == null) return null!;
@@ -39,14 +40,18 @@ public class ProductManager
             Description = model.Description,
             Price = model.Price,
             CategoryId = categoryId,
-            Images = model.Images
+            Images = (List<ProductImage>?)model.Images.Select(i => new ProductImage()
+            {
+                ProductId = i.ProductId,
+                Path = FileService.ProductImages(i.Image)
+            })
         };
         await _repository.AddProduct(category, product);
         return ParseToProductModel(product);
     }
 
 
-    public async Task<ProductModel> UpdateProduct(int categoryId, Guid productId, ProductModel model)
+    public async Task<ProductModel> UpdateProduct(int categoryId, Guid productId, CreateProductModel model)
     {
         var category = _categoryRepository.Categories.FirstOrDefault(c => c.Id == categoryId);
         if (category == null) return null!;
@@ -57,7 +62,11 @@ public class ProductManager
         product.Description = model.Description;
         product.Price = model.Price;
         product.CategoryId = categoryId;
-        product.Images = model.Images;
+        product.Images = (List<ProductImage>?)model.Images.Select(i => new ProductImage()
+        {
+            ProductId = i.ProductId,
+            Path = FileService.ProductImages(i.Image)
+        });
         await _repository.UpdateProduct(category, product);
         return ParseToProductModel(product);
     }
