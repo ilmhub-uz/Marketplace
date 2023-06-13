@@ -24,13 +24,13 @@ public class ProductController : ControllerBase
         return Ok(await _productManager.GetProductById(productId,categoryId));
     }
     [HttpPost]
-    public async Task<OkObjectResult> AddProduct(int categoryId, ProductModel model)
+    public async Task<OkObjectResult> AddProduct(int categoryId, CreateProductModel model)
     {
         return Ok(await _productManager.AddProduct(categoryId,model));
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateProduct(int categoryId, Guid productId, ProductModel model)
+    public async Task<IActionResult> UpdateProduct(int categoryId, Guid productId, CreateProductModel model)
     {
         return Ok(await _productManager.UpdateProduct(categoryId,productId,model));
     }
