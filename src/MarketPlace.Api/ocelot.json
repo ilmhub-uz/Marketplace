@@ -1,0 +1,17 @@
+{
+    "Routes": [
+        {
+            "UpstreamPathTemplate": "/account/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "identity",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/account/{everything}"
+
+        }
+    ]
+}
