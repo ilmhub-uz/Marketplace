@@ -25,14 +25,14 @@ public class ProductManager
 
     public async Task<ProductModel> GetProductById(Guid productId, int categoryId)
     {
-        var category = _categoryRepository.Categories.FirstOrDefault(c => c.Id == categoryId);
+        var category = await _categoryRepository.GetCategoryById(categoryId);
         if (category == null) return null!;
         return ParseToProductModel(await _repository.GetProductById(category, productId));
     }
 
     public async Task<ProductModel> AddProduct(int categoryId, CreateProductModel model)
     {
-        var category = _categoryRepository.Categories.FirstOrDefault(c => c.Id == categoryId);
+        var category = await _categoryRepository.GetCategoryById(categoryId);
         if (category == null) return null!;
         var product = new Product
         {
@@ -53,7 +53,7 @@ public class ProductManager
 
     public async Task<ProductModel> UpdateProduct(int categoryId, Guid productId, CreateProductModel model)
     {
-        var category = _categoryRepository.Categories.FirstOrDefault(c => c.Id == categoryId);
+        var category = await _categoryRepository.GetCategoryById(categoryId);
         if (category == null) return null!;
         var product = category.Products.FirstOrDefault(p => p.Id == productId);
         if (product == null) return null!;
@@ -73,7 +73,7 @@ public class ProductManager
 
     public async Task<string> DeleteProduct(int categoryId, Guid productId)
     {
-        var category = _categoryRepository.Categories.FirstOrDefault(c => c.Id == categoryId);
+        var category = await _categoryRepository.GetCategoryById(categoryId);
         if (category == null) return "Category not found"!;
         var product = category.Products.FirstOrDefault(p => p.Id == productId);
         if (product == null) return "Product not found"!;

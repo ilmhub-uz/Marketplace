@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Marketplace.Services.Products.Controllers;
 
-[Route("api/category")]
+[Route("api/[controller]")]
 [ApiController]
-public class CategoryController : ControllerBase
+public class CategoriesController : ControllerBase
 {
     private readonly CategoryManager _categoryManager;
 
-    public CategoryController(CategoryManager categoryManager)
+    public CategoriesController(CategoryManager categoryManager)
     {
         _categoryManager = categoryManager;
     }
@@ -34,13 +34,13 @@ public class CategoryController : ControllerBase
         return Ok(await _categoryManager.AddCategory(model));
     }
 
-    [HttpPut]
+    [HttpPut("{categoryId}")]
     public async Task<IActionResult> UpdateCategory(CreateCategoryModel? model, int categoryId)
     {
         return Ok(await _categoryManager.UpdateCategory(model, categoryId));
     }
 
-    [HttpDelete]
+    [HttpDelete("{categoryId}")]
     public async Task<IActionResult> DeleteCategory(int categoryId)
     {
         return Ok(await _categoryManager.DeleteCategory(categoryId));

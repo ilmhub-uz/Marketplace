@@ -36,7 +36,7 @@ public class CategoryManager
    public async Task<IEnumerable<CategoryModel>> GetCategories()
    {
        var categoryModels = new List<CategoryModel>();
-       foreach (var category in _categoryRepository.Categories)
+       foreach (var category in await _categoryRepository.Categories)
        {
            categoryModels.Add(ParseCategoryModel(category));
        }
