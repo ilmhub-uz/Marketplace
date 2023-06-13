@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Marketplace.Organizations.Blazor.Models.Models;
+namespace Marketplace.Organizations.Blazor.Models.Account;
 
 public class CreateUserModel
 {
