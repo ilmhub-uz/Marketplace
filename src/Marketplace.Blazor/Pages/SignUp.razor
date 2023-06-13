@@ -1,0 +1,36 @@
+﻿@page "/SignUp"
+@using Marketplace.Blazor.Models
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+<h3>SignUp</h3>
+<form class="row g-3" style="width: 400px ;margin: auto"  >
+    <div>
+        <input @bind="_userModel.Name" class="form-control"  type="text" placeholder="Name"/>
+    </div>
+    <div>
+        <input @bind="_userModel.Password"  class="form-control" type="text" placeholder="Password"/>
+    </div>  
+    <div>
+        <input @bind="_userModel.ConfirmPassword"  class="form-control"  type="text" placeholder="ConfirmPassword"/>
+    </div>  
+    <div>
+        <input @bind="_userModel.UserName"  class="form-control" type="text" placeholder="Username"/>
+    </div>
+    <button class="form-control" type="button" @onclick="async () => await Register()" > Sign Up</button>
+</form>
+
+@code {
+
+    private CreateUserModel? _userModel = new CreateUserModel();
+    private async Task Register()
+    {
+        var response = await Http.PostAsJsonAsync("/account/register", _userModel);
+
+        if (response.IsSuccessStatusCode)
+        {
+            NavManager.NavigateTo("/counter");
+        }
+    }
+
+}
