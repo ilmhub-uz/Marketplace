@@ -3,6 +3,7 @@ using Marketplace.Services.Identity.Entities;
 using Marketplace.Services.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Marketplace.Services.Identity.Managers;
 
@@ -71,5 +72,26 @@ public class UserManager
     public async Task<User?> GetUser(string userName)
     {
 	    return await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+    }
+
+    public async Task<List<UserModel>> GetAllUserAsync()
+    {
+        var users = await _dbContext.Users.ToListAsync();
+
+        var userModels = new List<UserModel>();
+
+        foreach (var user in users)
+        {
+            userModels.Add(MapToUserModel(user));
+        }
+
+        return userModels;
+    }
+
+    public UserModel MapToUserModel(User user)
+    {
+        var userModel = new UserModel(user);
+        
+        return userModel;
     }
 }

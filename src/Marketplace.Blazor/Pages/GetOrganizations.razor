@@ -1,0 +1,84 @@
+﻿@page "/get_organization"
+@using Marketplace.Blazor.OrganizationModels
+@using Blazored.LocalStorage
+@inject ILocalStorageService Storage
+@inject HttpClient Client
+@inject NavigationManager NavigationManager
+
+
+<h3 style="text-align: center; color: gold">All Organizations</h3>
+
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Contact</th>
+            <th>ID</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            @if (organizationModels != null)
+            {
+                @foreach (var organization in organizationModels)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrEmpty(organization.Logo))
+                            {
+                                <img src="@organization.Logo" alt="Logo organization" width="50" height="50" />
+                            }
+                        </td>
+              
+                        <td>@organization.Name</td>
+                        <td>@organization.Description</td>
+                        <td>@organization.Contact</td>
+                        <td>@organization.Id</td>
+
+                        <td>
+                            <button class="btn btn-primary" @onclick="() => ViewOrganization(organization.Id)">View details</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                     <td colspan="3">Loading...</td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private List<OrganizationModel>? organizationModels;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await Storage.GetItemAsStringAsync("token");
+
+        var request = new HttpRequestMessage(HttpMethod.Get, "/organizations/get_organizations");
+
+        request.Headers.Add("Authorization", $"Bearer {token}");
+
+        var response = await Client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            organizationModels = await response.Content.ReadFromJsonAsync<List<OrganizationModel>>();
+        }
+    }
+
+    private void ViewOrganization(Guid organizationId)
+    {
+        NavigationManager.NavigateTo($"/organization/{organizationId}");
+    }
+}
+
+        

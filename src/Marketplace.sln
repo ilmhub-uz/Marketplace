@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketPlace.Organizations.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Services.Products", "Marketplace.Services.Products\Marketplace.Services.Products.csproj", "{B05FD937-CCDC-44F5-A542-BCE7C9E858D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Blazor", "Marketplace.Blazor\Marketplace.Blazor.csproj", "{4337AA06-A8C8-42B7-8EA0-B32DC962AE5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Blazor", "Marketplace.Blazor\Marketplace.Blazor.csproj", "{4337AA06-A8C8-42B7-8EA0-B32DC962AE5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Organizations.Blazor", "Marketplace.Organizations.Blazor\Marketplace.Organizations.Blazor.csproj", "{FF962F07-CD6F-4092-B51D-E82E09388FED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Organizations.Blazor", "Marketplace.Organizations.Blazor\Marketplace.Organizations.Blazor.csproj", "{FF962F07-CD6F-4092-B51D-E82E09388FED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

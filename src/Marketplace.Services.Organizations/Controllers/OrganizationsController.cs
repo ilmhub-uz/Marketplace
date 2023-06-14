@@ -27,7 +27,8 @@ public class OrganizationsController : ControllerBase
         _organizationManager = organizationManager;
     }
 
-    [HttpGet]
+    [HttpGet("get_organizations")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetOrganizations()
     {
         return Ok(await _organizationManager.GetOrganizations());

@@ -1,0 +1,66 @@
+﻿@page "/profile"
+@using Blazored.LocalStorage
+@using Marketplace.Blazor.AccountModels
+@inject HttpClient Client
+@inject ILocalStorageService Storage
+@inject NavigationManager NavigationManager
+
+
+<h3 style="text-align: center; color: gold">Profile</h3>
+
+@if (user is not null)
+{
+    <div class="card w-50 mt-2">
+        <div style="color: cornflowerblue" class="card-header">
+            <h5>User Profile</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">ID:</dt>
+                <dd class="col-sm-9">@user.Id</dd>
+
+                <dt class="col-sm-3">Name:</dt>
+                <dd class="col-sm-9">@user.Name</dd>
+
+                <dt class="col-sm-3">Username:</dt>
+                <dd class="col-sm-9">@user.UserName</dd>
+            </dl>
+        </div>
+    </div>
+
+    <td>
+        <button class="mt-3 btn btn-danger" @onclick="() => Logout()"> Log Out</button>
+    </td>
+}
+else
+{
+    <h1 style="color: chocolate">User null</h1>
+}
+
+
+@code {
+
+    private UserViewModel? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await Storage.GetItemAsStringAsync("token");
+
+        var request = new HttpRequestMessage(HttpMethod.Get, "/account/profile");
+        request.Headers.Add("Authorization", $"Bearer {token}");
+
+        var response = await Client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            user = await response.Content.ReadFromJsonAsync<UserViewModel>();
+        }
+    }
+
+    private async Task Logout()
+    {
+        await Storage.RemoveItemAsync("token");
+        NavigationManager.NavigateTo("/login");
+        StateHasChanged();
+    }
+}

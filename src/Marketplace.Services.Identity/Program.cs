@@ -50,6 +50,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+
 app.UseCors(cors =>
 {
 	cors.AllowAnyHeader()

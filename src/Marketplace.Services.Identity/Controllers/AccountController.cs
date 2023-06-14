@@ -76,4 +76,12 @@ public class AccountController : ControllerBase
 
 	    return Ok(new UserModel(user));
     }
+
+    [HttpGet("get_all_users")]
+    public async Task<IActionResult> GetAllUser()
+    {
+        var users = await _userManager.GetAllUserAsync();
+
+        return Ok(users);
+    }
 }

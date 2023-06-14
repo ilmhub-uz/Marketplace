@@ -1,0 +1,65 @@
+﻿@page "/login"
+@using Blazored.LocalStorage
+@using Marketplace.Blazor.AccountModels
+@inject HttpClient Client
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService Storage
+
+
+<h3 style="text-align: center; color: crimson">Login</h3>
+
+@if (_successMessage != null)
+{
+    <div class="alert alert-success">@_successMessage</div>
+}
+
+@if (_errorMessage != null)
+{
+    <div class="alert alert-danger">@_errorMessage</div>
+}
+<div class="w-50 mx-auto p-3 mt-2" style="background-color: gold">
+    <EditForm Model="@_user" OnValidSubmit="SignIn">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <InputText id="username" class="form-control" @bind-Value="_user.UserName" placeholder="Enter your username" />
+            <ValidationMessage For="@(() => _user.UserName)" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <InputText id="password" type="password" class="form-control" @bind-Value="_user.Password" placeholder="Enter your password" />
+            <ValidationMessage For="@(() => _user.Password)" />
+        </div>
+
+        <button type="submit" class="mt-2 btn btn-primary">Register</button>
+    </EditForm>
+</div>
+
+
+@code {
+    private LoginUserModel _user = new ();
+    private string? _successMessage;
+    private string? _errorMessage;
+
+    private async Task SignIn()
+    {
+        var response = await Client.PostAsJsonAsync("/account/login", _user);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent =await response.Content.ReadFromJsonAsync<LoginResult>();
+
+            if (!string.IsNullOrEmpty(responseContent?.Token))
+            {
+                await Storage.SetItemAsStringAsync("token", responseContent.Token);
+                _successMessage = "Login successful!";
+                NavigationManager.NavigateTo("/profile");
+            }
+        }
+        else
+            _errorMessage = "Response Error";
+    }
+}
