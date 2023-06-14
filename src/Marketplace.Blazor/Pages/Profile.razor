@@ -10,17 +10,14 @@
 
 @if (user is not null)
 {
-    <div class="card w-50 mt-2">
+    <div class="card w-50 mt-2" style="background-color: chartreuse">
         <div style="color: cornflowerblue" class="card-header">
-            <h5>User Profile</h5>
+            <h5>@user.Name</h5>
         </div>
         <div class="card-body">
             <dl class="row">
                 <dt class="col-sm-3">ID:</dt>
                 <dd class="col-sm-9">@user.Id</dd>
-
-                <dt class="col-sm-3">Name:</dt>
-                <dd class="col-sm-9">@user.Name</dd>
 
                 <dt class="col-sm-3">Username:</dt>
                 <dd class="col-sm-9">@user.UserName</dd>
@@ -28,9 +25,8 @@
         </div>
     </div>
 
-    <td>
-        <button class="mt-3 btn btn-danger" @onclick="() => Logout()"> Log Out</button>
-    </td>
+    <button class="mt-2 btn btn-danger" @onclick="async () => await LogoutAsync()"> Log Out</button>
+    <button class="mt-2 btn btn-primary" @onclick="Update">Update profile</button>
 }
 else
 {
@@ -57,10 +53,16 @@ else
         }
     }
 
-    private async Task Logout()
+    private async Task LogoutAsync()
     {
         await Storage.RemoveItemAsync("token");
         NavigationManager.NavigateTo("/login");
+        StateHasChanged();
+    }
+
+    private void Update()
+    {
+        NavigationManager.NavigateTo("/update_profile");
         StateHasChanged();
     }
 }

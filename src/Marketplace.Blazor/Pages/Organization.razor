@@ -4,11 +4,11 @@
 @inject HttpClient Client
 @inject ILocalStorageService Storage
 
-<h3>Organization Details</h3>
+<h3 style="text-align: center; color: gold">Organization Details</h3>
 
 @if (organization != null)
 {
-    <div>
+    <div class="mt-3" >
         <p><strong>Organization Name: </strong> @organization.Name</p>
         <p><strong>Description: </strong> @organization.Description</p>
         <p><strong>Logo Url: </strong> @organization.Logo</p>
