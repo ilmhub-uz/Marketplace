@@ -7,7 +7,7 @@ public class CreateOrganizationModel
 
 	public IFormFile? Logo { get; set; }
 	public string? Contact { get; set; }
-		
+
 	public List<CreateAddressModel>? Addresses { get; set; }
 }
 

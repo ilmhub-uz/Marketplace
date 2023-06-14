@@ -11,7 +11,7 @@ namespace Marketplace.Services.Organizations.Controllers;
 [Authorize]
 public class OrganizationsController : ControllerBase
 {
-    /*
+	/*
 		POST   api/organizations
 		GET    api/organizations
 		GET    api/organizations/{id}
@@ -20,35 +20,35 @@ public class OrganizationsController : ControllerBase
 		GET    api/organizations/{id}/users/{userId}
 	 */
 
-    private readonly OrganizationManager _organizationManager;
+	private readonly OrganizationManager _organizationManager;
 
-    public OrganizationsController(OrganizationManager organizationManager)
-    {
-        _organizationManager = organizationManager;
-    }
+	public OrganizationsController(OrganizationManager organizationManager)
+	{
+		_organizationManager = organizationManager;
+	}
 
-    [HttpGet]
-    public async Task<IActionResult> GetOrganizations()
-    {
-        return Ok(await _organizationManager.GetOrganizations());
-    }
+	[HttpGet]
+	public async Task<IActionResult> GetOrganizations()
+	{
+		return Ok(await _organizationManager.GetOrganizations());
+	}
 
-    [HttpPost]
-    public async Task<IActionResult> CreateOrganization([FromForm] CreateOrganizationModel organizationModel)
-    {
-        return Ok(await _organizationManager.Create(organizationModel));
-    }
+	[HttpPost]
+	public async Task<IActionResult> CreateOrganization([FromForm] CreateOrganizationModel organizationModel)
+	{
+		return Ok(await _organizationManager.Create(organizationModel));
+	}
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
-    {
-        return Ok(await _organizationManager.GetById(id));
-    }
+	[HttpGet("{id}")]
+	public async Task<IActionResult> GetById(Guid id)
+	{
+		return Ok(await _organizationManager.GetById(id));
+	}
 
-    [HttpPut]
-    [OrganizationOwner]
-    public async Task<IActionResult> UpdateOrganization(Guid organizationId, [FromForm] CreateOrganizationModel organizationModel)
-    {
-        return Ok(await _organizationManager.Update(organizationId, organizationModel));
-    }
+	[HttpPut]
+	[OrganizationOwner]
+	public async Task<IActionResult> UpdateOrganization(Guid organizationId, [FromForm] CreateOrganizationModel organizationModel)
+	{
+		return Ok(await _organizationManager.Update(organizationId, organizationModel));
+	}
 }

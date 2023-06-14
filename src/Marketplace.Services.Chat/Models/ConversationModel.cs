@@ -4,9 +4,9 @@ namespace Marketplace.Services.Chat.Models;
 
 public class ConversationModel
 {
-    public Guid Id { get; set; }
+	public Guid Id { get; set; }
 
-    public Guid FromUserId { get; set; }
+	public Guid FromUserId { get; set; }
 }
 
 public class MessageModel

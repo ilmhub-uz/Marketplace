@@ -29,8 +29,8 @@ public class OrganizationOwnerFilterAttribute : ActionFilterAttribute
 
 		var userId = _userProvider.UserId;
 
-		var isUserOwner = organization.Users.Any(u => u.UserId == userId 
-		                                              && u.UserRole == OrganizationUserRole.Owner );
+		var isUserOwner = organization.Users.Any(u => u.UserId == userId
+													  && u.UserRole == OrganizationUserRole.Owner);
 
 		if (!isUserOwner)
 		{
