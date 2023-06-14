@@ -10,18 +10,12 @@ namespace Marketplace.Services.Identity.Controllers;
 [ApiController]
 public class AccountController : ControllerBase
 {
-    private readonly UserManager _userManager;
-    private ILogger<AccountController> _logger;
-    private readonly UserProvider _userProvider;
+    private readonly AccountManager _accountManager;
 
-    public AccountController(
-	    UserManager userManager,
-	    ILogger<AccountController> logger,
-	    UserProvider userProvider)
+
+    public AccountController(AccountManager accountManager)
     {
-        _userManager = userManager;
-        _logger = logger;
-        _userProvider = userProvider;
+        _accountManager = accountManager;
     }
 
     [HttpPost("register")]
@@ -32,7 +26,7 @@ public class AccountController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var user = await _userManager.Register(createUserModel);
+        var user = await _accountManager.Register(createUserModel);
 
         return Ok(new UserModel(user));
     }
@@ -45,43 +39,10 @@ public class AccountController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var token = await _userManager.Login(loginUserModel);
+        var token = await _accountManager.Login(loginUserModel);
 
         return Ok(new { Token = token });
     }
 
-    [HttpGet("profile")]
-    [Authorize]
-    public async Task<IActionResult> Profile()
-    {
-        var userId = _userProvider.UserId;
-
-        var user = await _userManager.GetUser(userId);
-        if (user == null)
-        {
-            return Unauthorized();
-        }
-
-        return Ok(new UserModel(user));
-    }
-
-    [HttpGet("{userName}")]
-    public async Task<IActionResult> GetUser(string userName)
-    {
-	    var user = await _userManager.GetUser(userName);
-	    if (user == null)
-	    {
-		    return NotFound();
-	    }
-
-	    return Ok(new UserModel(user));
-    }
-
-    [HttpGet("get_all_users")]
-    public async Task<IActionResult> GetAllUser()
-    {
-        var users = await _userManager.GetAllUserAsync();
-
-        return Ok(users);
-    }
+  
 }
