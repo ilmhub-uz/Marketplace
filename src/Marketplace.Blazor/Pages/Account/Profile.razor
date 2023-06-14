@@ -1,0 +1,40 @@
+﻿@page "/profile"
+
+@using Blazored.LocalStorage
+@using Marketplace.Blazor.Models.AccountModel;
+@inject HttpClient Http
+@inject ILocalStorageService storage
+
+<h3>Profile @Username</h3>
+
+@if (user != null)
+{
+	<p>Name : @user?.Username</p>
+}
+else
+{
+	<h3> User not found</h3>
+}
+
+@code {
+	User user;
+
+
+	private string Username;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var token = await storage.GetItemAsStringAsync("token");
+
+		var request = new HttpRequestMessage(HttpMethod.Get, "/account/profile");
+
+		request.Headers.Add("Authorization", $"Bearer {token}");
+
+		var response = await Http.SendAsync(request);
+
+		user = await response.Content.ReadFromJsonAsync<User>();
+
+
+	}
+
+}

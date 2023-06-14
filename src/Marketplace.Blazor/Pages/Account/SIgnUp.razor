@@ -1,0 +1,46 @@
+﻿@page "/signup"
+@using Marketplace.Blazor.Models.AccountModel;
+@inject HttpClient Http
+@inject NavigationManager NavManager
+<h1>Sign Up</h1>
+
+<div style="margin:0 auto;width:50%;display:flex;justify-content:center; border-radius: 60px; box-shadow: 0 0 40px rgba(8,7,16,0.6);">
+    <div>
+        <form class="row g-3 " style="width: 400px " asp-controller="Users" asp-action="SignUp" enctype="multipart/form-data" method="post">
+                <div style="margin-top:15px;">
+                    <div>
+                        <input @bind="model.Name" class="form-control" type="text" placeholder="Name" />
+                    </div>
+                    <div>
+                        <input @bind="model.Password" class="form-control" type="text" placeholder="Password" />
+                    </div>
+                    <div>
+                        <input @bind="model.ConfirmPassword" class="form-control" type="text" placeholder="ConfirmPassword" />
+                    </div>
+                    <div>
+                        <input @bind="model.UserName" class="form-control" type="text" placeholder="Username" />
+                    </div>
+                </div>
+
+            <button class="form-control" type="button" @onclick="async () => await SignUpUser()"> Sign Up</button>
+           @* <a style="margin-bottom:15px;" class="link-info" asp-controller="Users" asp-action="SignIn">Sign In</a>*@
+        </form>
+    </div>
+</div>
+
+@code
+{
+
+    private CreateUserModel? model = new CreateUserModel();
+    public async Task SignUpUser()
+    {
+        var response = await Http.PostAsJsonAsync("/account/register", model);
+
+        if (response.IsSuccessStatusCode)
+        {
+            NavManager.NavigateTo("/signin");
+        }
+
+    }
+}
+
