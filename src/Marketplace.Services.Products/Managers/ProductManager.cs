@@ -8,76 +8,57 @@ namespace Marketplace.Services.Products.Managers;
 public class ProductManager
 {
 	private readonly IProductRepository _repository;
-	private readonly ICategoryRepository _categoryRepository;
 
-	public ProductManager(IProductRepository repository, ICategoryRepository categoryRepository)
+	public ProductManager(IProductRepository repository)
 	{
 		_repository = repository;
-		_categoryRepository = categoryRepository;
 	}
 
-	public async Task<List<Product>> GetProducts(int categoryId)
+	public async Task<List<Product>> GetProducts()
 	{
-		var category = await _categoryRepository.GetCategoryById(categoryId);
-		if (category == null!) return null!;
-		return await _repository.GetProducts(category);
+		return await _repository.GetProducts();
 	}
 
-	public async Task<ProductModel> GetProductById(Guid productId, int categoryId)
+	public async Task<ProductModel> GetProductById(Guid productId)
 	{
-		var category = await _categoryRepository.GetCategoryById(categoryId);
-		if (category == null) return null!;
-		return ParseToProductModel(await _repository.GetProductById(category, productId));
+		return ParseToProductModel(await _repository.GetProductById( productId));
 	}
 
-	public async Task<ProductModel> AddProduct(int categoryId, CreateProductModel model)
+	public async Task<ProductModel> AddProduct( CreateProductModel model)
 	{
-		var category = await _categoryRepository.GetCategoryById(categoryId);
-		if (category == null) return null!;
 		var product = new Product
 		{
 			Name = model.Name,
 			Description = model.Description,
 			Price = model.Price,
-			CategoryId = categoryId,
-			Images = (List<ProductImage>?)model.Images.Select(i => new ProductImage()
-			{
-				ProductId = i.ProductId,
-				Path = FileService.ProductImages(i.Image)
-			})
-		};
-		await _repository.AddProduct(category, product);
+			CategoryId = model.CategoryId,
+            Photo_Path = FileService.ProductImages(model.PhotoFile!)
+        };
+		await _repository.AddProduct( product);
 		return ParseToProductModel(product);
 	}
 
 
-	public async Task<ProductModel> UpdateProduct(int categoryId, Guid productId, CreateProductModel model)
+	public async Task<ProductModel> UpdateProduct( Guid productId, CreateProductModel model)
 	{
-		var category = await _categoryRepository.GetCategoryById(categoryId);
-		if (category == null) return null!;
-		var product = category.Products.FirstOrDefault(p => p.Id == productId);
+		var product =await  _repository.GetProductById(productId);
 		if (product == null) return null!;
 
 		product.Name = model.Name;
 		product.Description = model.Description;
 		product.Price = model.Price;
-		product.CategoryId = categoryId;
-		product.Images = (List<ProductImage>?)model.Images.Select(i => new ProductImage()
-		{
-			ProductId = i.ProductId,
-			Path = FileService.ProductImages(i.Image)
-		});
-		await _repository.UpdateProduct(category, product);
+		product.CategoryId = model.CategoryId;
+        product.Photo_Path =FileService.ProductImages(model.PhotoFile!);
+
+        await _repository.UpdateProduct( product);
 		return ParseToProductModel(product);
 	}
 
-	public async Task<string> DeleteProduct(int categoryId, Guid productId)
+	public async Task<string> DeleteProduct( Guid productId)
 	{
-		var category = await _categoryRepository.GetCategoryById(categoryId);
-		if (category == null) return "Category not found"!;
-		var product = category.Products.FirstOrDefault(p => p.Id == productId);
+		var product = await _repository.GetProductById(productId);
 		if (product == null) return "Product not found"!;
-		await _repository.DeleteProduct(category, product);
+		await _repository.DeleteProduct(product);
 		return "Successfully";
 	}
 
@@ -93,7 +74,7 @@ public class ProductManager
 			Description = product.Description,
 			Price = product.Price,
 			CategoryId = product.CategoryId,
-			Images = product.Images,
+			Photo_Path = product.Photo_Path,
 		};
 
 	}

@@ -1,4 +1,5 @@
-﻿using Marketplace.Services.Products.Managers;
+﻿using Marketplace.Services.Products.Entities;
+using Marketplace.Services.Products.Managers;
 using Marketplace.Services.Products.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,32 +16,31 @@ public class ProductsController : ControllerBase
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetProducts(int categoryId)
+	public async Task<IActionResult> GetProducts()
 	{
-		return Ok(await _productManager.GetProducts(categoryId));
+		return Ok(await _productManager.GetProducts());
 	}
 
 	[HttpGet("{productId}")]
-	public async Task<IActionResult> GetProductById(Guid productId, int categoryId)
+	public async Task<IActionResult> GetProductById(Guid productId)
 	{
-		return Ok(await _productManager.GetProductById(productId, categoryId));
+		return Ok(await _productManager.GetProductById(productId));
 	}
 
 	[HttpPost]
-	public async Task<OkObjectResult> AddProduct(int categoryId, CreateProductModel model)
+	public async Task<IActionResult> AddProduct([FromForm] CreateProductModel model)
 	{
-		return Ok(await _productManager.AddProduct(categoryId, model));
-	}
-
-	[HttpPut("{productId}")]
-	public async Task<IActionResult> UpdateProduct(int categoryId, Guid productId, CreateProductModel model)
+		return Ok(await _productManager.AddProduct( model));
+    }
+    [HttpPut("{productId}")]
+	public async Task<IActionResult> UpdateProduct([FromForm] CreateProductModel model,Guid productId)
 	{
-		return Ok(await _productManager.UpdateProduct(categoryId, productId, model));
+		return Ok(await _productManager.UpdateProduct( productId, model));
 	}
 
 	[HttpDelete("{productId}")]
-	public async Task<IActionResult> DeleteProduct(int categoryId, Guid productId)
+	public async Task<IActionResult> DeleteProduct( Guid productId)
 	{
-		return Ok(await _productManager.DeleteProduct(categoryId, productId));
+		return Ok(await _productManager.DeleteProduct(productId));
 	}
 }

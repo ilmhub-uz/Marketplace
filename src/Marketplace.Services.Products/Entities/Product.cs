@@ -13,7 +13,7 @@ public class Product
 
 	public int CategoryId { get; set; }
 
-	public List<ProductImage>? Images { get; set; }
+    public required string Photo_Path { get; set; }
 }
 
 public class ProductImage

@@ -7,5 +7,5 @@ public class CreateProductModel
 	public decimal Price { get; set; }
 	public int CategoryId { get; set; }
 
-	public List<ProductImageModel> Images { get; set; }
+	public  IFormFile? PhotoFile { get; set; }
 }
