@@ -1,0 +1,20 @@
+﻿version: '3.8'
+
+services:
+  api:
+    image: eax_image
+    container_name: eax
+    ports:
+      - "5021:80"
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  tasks:
+    image: postgres:latest
+    container_name: taskss
+    environment:
+      - POSTGRES_PASSWORD=task
+    ports:
+      - "5432:5432"
+    restart: always

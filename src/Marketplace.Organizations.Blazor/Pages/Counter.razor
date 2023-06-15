@@ -1,18 +1,32 @@
 ﻿@page "/counter"
+@using Marketplace.Organizations.Blazor.Entities;
+@using OrganizationBlazor.Services
 
-<PageTitle>Counter</PageTitle>
+@inject HttpClient Http
+@inject OrganizationService OrganizationService
 
-<h1>Counter</h1>
+<h3>CreateOrganization</h3>
 
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<form class="row g-3" style="width: 400px " enctype="multipart/form-data">
+    <input name="Photo" @bind-value="createOrganization.Logo" class="form-control" type="file" />
+    <input name="Name" @bind-value="createOrganization.Name" class="form-control" type="text" placeholder="Name" />
+    <input name="Username" @bind-value="createOrganization.Description" class="form-control" type="text" placeholder="Description" />
+    <input name="Password" @bind-value="createOrganization.Contact" class="form-control" type="password" placeholder="Contact" />
+    <input name="ConfirmPassword" @bind-value="address.Address" class="form-control" type="password" placeholder="Confirm password" />
+    <button class="form-control" @onclick="AddOrganization">Create</button>
+</form>
 
 @code {
-    private int currentCount = 0;
+    private CreateOrganizationModel createOrganization = new CreateOrganizationModel();
+    private CreateAddressModel address = new CreateAddressModel();
 
-    private void IncrementCount()
+    private async Task AddOrganization()
     {
-        currentCount++;
+        createOrganization.Addresses.Add(address);
+        await OrganizationService.Post<CreateOrganizationModel>("/organizations", createOrganization);
     }
 }
+
+
+
+

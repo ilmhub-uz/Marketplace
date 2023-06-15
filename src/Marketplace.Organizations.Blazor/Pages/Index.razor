@@ -7,3 +7,59 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@inject OrganizationService OrganizationService
+@using Marketplace.Organizations.Blazor.Entities
+@using OrganizationBlazor.Services
+<h3>GetOrganizations</h3>
+
+@{
+    <h1>Organizations</h1>
+
+    foreach (var organization in organizations)
+    {
+        <table id="customers">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Logo</th>
+            <th>Contact</th>
+            <th>Country</th>
+            <th>Addresses </th>
+        </tr>
+        <tr>
+            <td>@organization.Id</td>
+            <td>@organization.Name</td>
+            <td>@organization.Description</td>
+            <td>@organization.Logo</td>
+            <td>@organization.Contact</td>
+            <td>Country</td>
+            <td>
+                <table id="customers">
+                    @foreach (var address in organization.Addresses!)
+                    {
+                        <tr>
+                            <th>Address</th>
+                        </tr>
+                        <tr>
+                                <td>address.Address</td>
+                        </tr>
+                    }
+                </table>
+            </td>
+
+        </tr>
+        </table>
+    }
+}
+
+@code {
+
+    private List<OrganizationModel> organizations = new List<OrganizationModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        organizations = await OrganizationService.Get<List<OrganizationModel>>("/organization");
+    }
+
+}
