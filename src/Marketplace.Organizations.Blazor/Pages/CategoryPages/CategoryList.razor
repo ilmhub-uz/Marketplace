@@ -1,0 +1,93 @@
+﻿@page "/categories"
+@inject CategoryService CategoryService
+@inject NavigationManager NavigationManager
+<h3>CategoryList</h3>
+@{
+    if (categories != null)
+    {  <table class="table">
+           <thead>
+           <tr>
+               <th>CategoryId</th>
+               <th>Description</th>
+               <th>Child categories</th>
+               <th></th>
+           </tr>
+           </thead>
+           <tbody>
+                    
+           @foreach (var category in categories)
+           {
+               <tr>
+                   <td>@category.Id</td>
+                   <td>@category.Name</td>
+                   <td>
+                       <table class="table">
+                           <thead>
+                           <tr>
+                               <th>CategoryId</th>
+                               <th>Description</th>
+                               <th>Child categories</th>
+                               <th></th>
+                           </tr>
+                           </thead>
+                           
+                           <tbody>
+                    
+                           @foreach (var childCategory in category.ChildCategories)
+                           {
+                               <tr>
+                                            <td>@childCategory.Id</td>
+                                            <td>@childCategory.Name</td>
+                                  
+                                   <td>
+                                                <button type="button" @onclick="@(() => EditCategory(category))" class="btn btn-link">Edit Category</button>
+                                                <button type="button" @onclick="@(() => DeleteCategory(category.Id))" class="btn btn-link">DeleteCategory</button>
+                                   </td>
+                               </tr>
+                           }
+                           </tbody>
+
+                       </table>
+                   </td>
+                   <td>
+                            <button type="button" @onclick="@(() => EditCategory(category))" class="btn btn-link">Edit</button>
+                            <button type="button" @onclick="@(() => DeleteCategory(category.Id))" class="btn btn-link">Delete Child Category</button>
+                   </td>
+               </tr>
+           }
+           </tbody>
+       </table>
+    }
+}
+
+<br/>
+<button type="button" @onclick="AddAction" class="btn btn-primary" >Add Category</button>
+
+@code {
+
+    private List<CategoryModel>? categories ;
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategories();
+    }
+
+
+    private void EditCategory(CategoryModel categoryModel)
+    {
+        NavigationManager.NavigateTo($"/editCategory/{categoryModel.Id}");
+    }
+
+    private async Task DeleteCategory(Guid categoryId)
+    {
+        await CategoryService.DeleteCategory(categoryId);
+        await LoadCategories();
+    }
+    private void AddAction()
+    {
+        NavigationManager.NavigateTo("/addCategory");
+    }
+    private async Task LoadCategories()
+    {
+        categories = await CategoryService.GetCategories();
+    }
+}

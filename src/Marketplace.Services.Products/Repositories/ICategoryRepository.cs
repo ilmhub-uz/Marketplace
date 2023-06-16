@@ -9,7 +9,7 @@ public interface ICategoryRepository
 	Task AddCategory(Category category);
 	Task UpdateCategory(Category category);
 	Task DeleteCategory(Category category);
-	Task<Category> GetCategoryById(int categoryId);
+	Task<Category> GetCategoryById(Guid categoryId);
 }
 
 public class CategoryRepository : ICategoryRepository
@@ -44,8 +44,8 @@ public class CategoryRepository : ICategoryRepository
 		var filter = Builders<Category>.Filter.Eq(c => c.Id, category.Id);
 		await _categoryCollection.DeleteOneAsync(filter);
 	}
-
-	public async Task<Category> GetCategoryById(int categoryId)
+    
+    public async Task<Category> GetCategoryById(Guid categoryId)
 	{
 		var filter = Builders<Category>.Filter.Eq(c => c.Id, categoryId);
 		return await _categoryCollection.Find(filter).FirstOrDefaultAsync();
