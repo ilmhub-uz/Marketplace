@@ -14,48 +14,49 @@ public static class ExtensionAddJwtConfiguration
         var section = configuration.GetSection(nameof(JwtOptions));
         services.Configure<JwtOptions>(section);
 
-        var jwtOptions = section.Get<JwtOptions>();
-
-        var signinKey = new SymmetricSecurityKey(Encoding.UTF32.GetBytes(jwtOptions!.SecretKey));
+        JwtOptions jwtOptions = section.Get<JwtOptions>()!;
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                var signingKey = System.Text.Encoding.UTF32.GetBytes(jwtOptions.SigningKey);
+
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidIssuer = jwtOptions.ValidIssuer,
                     ValidAudience = jwtOptions.ValidAudience,
-                    IssuerSigningKey = signinKey,
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(signingKey),
                     ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
 
                 options.Events = new JwtBearerEvents()
                 {
-                    OnMessageReceived = context =>
+                    OnMessageReceived = async context =>
                     {
-                      /* Agar requestni headerida 'Authorization'
-                            nomi bilan token junatilmasa
-                            tokenni requestni querysidan olish */
-
                         if (string.IsNullOrEmpty(context.Token))
                         {
+                            //agar requestni headerida 'Authorization'
+                            //nomi bilan token junatilmasa
+                            //tokenni requestni querysidan
+                            //olish
+
+                            //barcha routelar uchun
                             var accessToken = context.Request.Query["token"];
                             context.Token = accessToken;
-                        }
 
-                        // Faqat 'hubs' bilan boshlangan routelar uchun
-                        var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(context.Token) && path.StartsWithSegments("/hubs"))
-                        {
-                            var accessToken = context.Request.Query["token"];
-                            context.Token = accessToken;
+                            // faqat 'hubs' bilan boshlangan routelar uchun
+                            /*var accessToken = context.Request.Query["access_token"];
+			                var path = context.HttpContext.Request.Path;
+			                if (!string.IsNullOrEmpty(accessToken) &&
+			                    path.StartsWithSegments("/hubs"))
+			                {
+				                context.Token = accessToken;
+			                }*/
                         }
-
-                        return Task.CompletedTask;
                     }
                 };
             });

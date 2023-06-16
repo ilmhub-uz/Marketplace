@@ -14,7 +14,7 @@ builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
+builder.Services.AddJwtConfiguration(builder.Configuration);
 builder.Services.AddSwaggerGenWithToken();
 
 builder.Services.AddScoped<ProductManager>();
