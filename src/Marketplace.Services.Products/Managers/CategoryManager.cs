@@ -82,7 +82,6 @@ public class CategoryManager
 	public async Task<string> DeleteCategory(int categoryId)
 	{
 		var category = _categoryRepository.GetCategoryById(categoryId);
-		if (category == null!) return "Not found";
 
 		await _categoryRepository.DeleteCategory(await category);
 		return "This category was deleted";
