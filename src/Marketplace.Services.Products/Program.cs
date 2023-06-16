@@ -1,11 +1,22 @@
+using Marketplace.Common.Extensions;
+using Marketplace.Common.Loggers;
 using Marketplace.Services.Products.Managers;
 using Marketplace.Services.Products.Repositories;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var logger = CustomLogger
+    .WriteLogToFileSendToTelegram(builder.Configuration, "ProductLogger.txt");
+
+builder.Logging.AddSerilog(logger);
+
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGenWithToken();
+
 builder.Services.AddScoped<ProductManager>();
 builder.Services.AddScoped<CategoryManager>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

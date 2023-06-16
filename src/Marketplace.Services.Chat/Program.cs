@@ -1,39 +1,24 @@
+using Marketplace.Common.Extensions;
+using Marketplace.Common.Loggers;
 using Marketplace.Services.Chat.Context;
 using Marketplace.Services.Chat.Extensions;
 using Marketplace.Services.Chat.Hubs;
 using Marketplace.Services.Chat.Managers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var logger = CustomLogger
+    .WriteLogToFileSendToTelegram(builder.Configuration, "ChatLogger.txt");
+
+builder.Logging.AddSerilog(logger);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-	{
-		Description = "JWT Bearer. : \"Authorization: Bearer { token }\"",
-		Name = "Authorization",
-		In = ParameterLocation.Header,
-		Type = SecuritySchemeType.ApiKey
-	});
+builder.Services.AddSwaggerGenWithToken();
 
-	c.AddSecurityRequirement(new OpenApiSecurityRequirement
-	{
-		{
-			new OpenApiSecurityScheme
-			{
-				Reference = new OpenApiReference
-				{
-					Type = ReferenceType.SecurityScheme,
-					Id = "Bearer"
-				}
-			},
-			new string[]{}
-		}
-	});
-});
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
