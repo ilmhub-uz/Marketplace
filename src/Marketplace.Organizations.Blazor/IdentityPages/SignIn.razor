@@ -1,0 +1,41 @@
+﻿@page "/SignIn"
+@inject HttpClient Htpp
+@inject ILocalStorageService Storage
+@inject NavigationManager NavigationManager
+@using Blazored.LocalStorage
+@using Marketplace.Blazor.Models
+<h3>SignIn</h3>
+<form class="row g-3" style="width: 400px ;margin: auto" >
+    <div>
+           <input @bind="_userModel.UserName"  class="form-control" type="text" placeholder="Username"/>
+       </div>
+    <div>
+        <input @bind="_userModel.Password"  class="form-control" type="text" placeholder="Password"/>
+    </div>
+    <button class="form-control" type="button" @onclick="( async  ()=> await Login() ) " > Sign Up</button>
+</form>
+@code {
+
+    private  LoginUserModel? _userModel = new LoginUserModel();
+    private async Task Login()
+    {
+        var response = await Htpp.PostAsJsonAsync("/account/login", _userModel);
+        var token = await response.Content.ReadAsStringAsync();
+        await Storage.SetItemAsStringAsync("token", token);
+        if (response.IsSuccessStatusCode)
+        {
+            
+            var result = await response.Content.ReadFromJsonAsync<LoginResult>();
+            if (!string.IsNullOrEmpty(result?.Token))
+            {
+                await Storage.SetItemAsStringAsync("token", result.Token);
+                NavigationManager.NavigateTo("/counter");
+            }
+        }
+        
+    }
+    public class LoginResult
+    {
+        public string  Token { get; set; }
+    }
+}

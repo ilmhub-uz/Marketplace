@@ -1,0 +1,77 @@
+﻿@page "/CreateOrganization"
+@using Marketplace.Organizations.Blazor.Models
+@using System.Net.Http.Headers
+@using Blazored.LocalStorage
+@inject HttpClient _httpclient
+@inject ILocalStorageService _LocalStorageService
+@inject NavigationManager Manager
+<h3>CreateOrganization</h3>
+<form class="row g-3" style="width: 400px ;margin: auto" enctype="multipart/form-data" >
+    <div>
+        <input @bind="@model.Name" class="form-control"  type="text" placeholder="Name"/>
+    </div>
+    <div>
+        <input @bind="@model.Description"  class="form-control" type="text" placeholder="Description"/>
+    </div>  
+    <div>
+        <InputFile OnChange="HandleFileSelected"   class="form-control"  type="file" placeholder="Logo"/>
+    </div>  
+    <div>
+        <input @bind="@model.Contact"  class="form-control" type="text" placeholder="Contact"/>
+    </div>
+    <div>
+            <input @bind="@_addressModel"  class="form-control" type="text" placeholder="Address"/>
+        </div>
+    <button class="form-control" type="button" @onclick="HandleFile" >AddOrganization</button>
+</form>
+
+
+@code {
+    private CreateOrganizationModel model = new ();
+
+    private string _addressModel = String.Empty;
+    private void AddAddress()
+    {
+        if (model.Addresses == null)
+        {
+            model.Addresses = new List<CreateAddressModel>();
+        }
+
+        model.Addresses.Add(new CreateAddressModel { Address = _addressModel });
+        _addressModel = string.Empty;
+    }
+    private async Task HandleFile()
+    {
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(model.Name),"Name");
+        content.Add(new StringContent(model.Contact),"Contact");
+        content.Add(new StringContent(model.Description),"Description");
+        if (model.Addresses != null)
+        {
+            for (int i = 0; i < model.Addresses.Count; i++)
+            {
+                content.Add(new StringContent(model.Addresses[i].Address), $"Addresses[{i}].Address");
+            }
+        }
+        if (model.Logo != null)
+        {
+            using var memoryStream = new MemoryStream();
+            await model.Logo.OpenReadStream().CopyToAsync(memoryStream);
+            content.Add(new ByteArrayContent(memoryStream.ToArray()),"Logo",model.Logo.Name);
+        }
+        
+        var token = await _LocalStorageService.GetItemAsStringAsync("token");
+        var request = new HttpRequestMessage(HttpMethod.Post, "/organizations/CreateOrganization");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer",$"{token}");
+        request.Content = content;
+        var response = await _httpclient.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+            Manager.NavigateTo("/GetOrganizations");   
+        }
+    }
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        model.Logo = e.File;
+    }
+}
