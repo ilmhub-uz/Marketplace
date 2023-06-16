@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  categories:
+    image: categories
+    depends_on:
+      - categories_db
+    container_name: categories
+    ports:
+      - "5076:80"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - categories_network
+
+  categories_db:
+    image: mongo:latest
+    restart: always
+    ports:
+      - '27018:27017'
+    container_name: categories_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      - categories_network
+
+networks:
+  categories_network:
