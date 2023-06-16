@@ -27,19 +27,19 @@ public class OrganizationsController : ControllerBase
 		_organizationManager = organizationManager;
 	}
 
-	[HttpGet]
+	[HttpGet("GetOrganizations")]
 	public async Task<IActionResult> GetOrganizations()
 	{
 		return Ok(await _organizationManager.GetOrganizations());
 	}
 
-	[HttpPost]
+	[HttpPost("CreateOrganization")]
 	public async Task<IActionResult> CreateOrganization([FromForm] CreateOrganizationModel organizationModel)
 	{
 		return Ok(await _organizationManager.Create(organizationModel));
 	}
 
-	[HttpGet("{id}")]
+	[HttpGet("GetById/{id}")]
 	public async Task<IActionResult> GetById(Guid id)
 	{
 		return Ok(await _organizationManager.GetById(id));
