@@ -27,8 +27,21 @@
 
         },
         {
+            "UpstreamPathTemplate": "/categories",
+            "UpstreamHttpMethod": [ "GET" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "product",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/categories"
+
+        },
+        {
             "UpstreamPathTemplate": "/categories/{everything}",
-            "UpstreamHttpMethod": [ "GET"],
+            "UpstreamHttpMethod": [ "GET" ],
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
