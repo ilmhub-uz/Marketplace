@@ -37,7 +37,7 @@ public class CategoryService
     public async Task DeleteCategory(Guid categoryId)
     {
         var token = await _storage.GetItemAsStringAsync("token");
-        var request = new HttpRequestMessage(HttpMethod.Post, $"/products/categories");
+        var request = new HttpRequestMessage(HttpMethod.Delete, $"/products/categories");
         request.Headers.Add("Authorization", $"Bearer {token}");
         request.Content = JsonContent.Create(categoryId);
          await _httpClient.SendAsync(request);
@@ -56,7 +56,7 @@ public class CategoryService
     public async Task UpdateCategory(Guid categoryId, CreateCategoryModel category)
     {
         var token = await _storage.GetItemAsStringAsync("token");
-        var request = new HttpRequestMessage(HttpMethod.Post, "/categories");
+        var request = new HttpRequestMessage(HttpMethod.Put, "/categories");
         request.Headers.Add("Authorization", $"Bearer {token}");
         request.Content = JsonContent.Create(new {categoryId, category });
         await _httpClient.SendAsync(request);
