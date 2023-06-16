@@ -74,7 +74,8 @@ public class OrganizationManager
 	public async Task<OrganizationModel> GetById(Guid organizationId)
 	{
 		var organization = await _organizationsDbContext.Organizations
-			.Where(o => o.Id == organizationId)
+			.Where(o => o.Id == organizationId).Include(i=>i.Addresses).
+			Include(i=>i.Users)
 			.FirstOrDefaultAsync();
 		return ParseToOrganizationModel(organization!);
 

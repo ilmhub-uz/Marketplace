@@ -2,9 +2,10 @@
 @using Marketplace.Organizations.Blazor.Models
 @using System.Net.Http.Headers
 @using Blazored.LocalStorage
-@inject HttpClient _httpclient
-@inject ILocalStorageService _LocalStorageService
-@inject NavigationManager Manager
+@using Marketplace.Organizations.Blazor.Services
+
+@inject NavigationManager Manager;
+@inject CategoryServices CategoryServices;
 <h3>CreateOrganization</h3>
 <form class="row g-3" style="width: 400px ;margin: auto" enctype="multipart/form-data" >
     <div>
@@ -42,33 +43,8 @@
     }
     private async Task HandleFile()
     {
-        var content = new MultipartFormDataContent();
-        content.Add(new StringContent(model.Name),"Name");
-        content.Add(new StringContent(model.Contact),"Contact");
-        content.Add(new StringContent(model.Description),"Description");
-        if (model.Addresses != null)
-        {
-            for (int i = 0; i < model.Addresses.Count; i++)
-            {
-                content.Add(new StringContent(model.Addresses[i].Address), $"Addresses[{i}].Address");
-            }
-        }
-        if (model.Logo != null)
-        {
-            using var memoryStream = new MemoryStream();
-            await model.Logo.OpenReadStream().CopyToAsync(memoryStream);
-            content.Add(new ByteArrayContent(memoryStream.ToArray()),"Logo",model.Logo.Name);
-        }
-        
-        var token = await _LocalStorageService.GetItemAsStringAsync("token");
-        var request = new HttpRequestMessage(HttpMethod.Post, "/organizations/CreateOrganization");
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer",$"{token}");
-        request.Content = content;
-        var response = await _httpclient.SendAsync(request);
-        if (response.IsSuccessStatusCode)
-        {
-            Manager.NavigateTo("/GetOrganizations");   
-        }
+        AddAddress();
+        CategoryServices.CreateOrganization(model);
     }
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {

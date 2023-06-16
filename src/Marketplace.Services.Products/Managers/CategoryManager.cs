@@ -36,23 +36,15 @@ public class CategoryManager
 
 	private async Task<Category> CreateCategory(CreateCategoryModel model)
 	{
-		var categories = (await _categoryRepository.GetCategories());
-		int maxId = 0;
-		if (categories is { Count: > 0 })
-		{
-			maxId = categories.Max(c => c.Id);
-			maxId = maxId + 1;
-		}
-
 		var category = new Category()
 		{
-			Id = maxId,
+			Id = Guid.NewGuid(),
 			Name = model.Name
 		};
 		return category;
 	}
 
-	public async Task<CategoryModel> GetById(int categoryId)
+	public async Task<CategoryModel> GetById(Guid categoryId)
 	{
 		var category = await _categoryRepository.GetCategoryById(categoryId);
 		if (category == null) return null!;
@@ -69,7 +61,7 @@ public class CategoryManager
 		return categoryModels;
 	}
 
-	public async Task<CategoryModel> UpdateCategory(CreateCategoryModel? model, int categoryId)
+	public async Task<CategoryModel> UpdateCategory(CreateCategoryModel? model, Guid categoryId)
 	{
 		var category = await _categoryRepository.GetCategoryById(categoryId);
 
@@ -79,7 +71,7 @@ public class CategoryManager
 	}
 
 
-	public async Task<string> DeleteCategory(int categoryId)
+	public async Task<string> DeleteCategory(Guid categoryId)
 	{
 		var category = _categoryRepository.GetCategoryById(categoryId);
 		if (category == null!) return "Not found";
