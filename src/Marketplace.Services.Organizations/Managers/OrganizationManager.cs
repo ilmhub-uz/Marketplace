@@ -104,6 +104,11 @@ public class OrganizationManager
 
 	}
 
+	public async Task<bool> OrganizationExists(Guid id)
+	{
+		return await _organizationsDbContext.Organizations.AnyAsync(o => o.Id == id);
+	}
+
 	private OrganizationModel ParseToOrganizationModel(Organization model)
 	{
 		var organizationModel = new OrganizationModel()
