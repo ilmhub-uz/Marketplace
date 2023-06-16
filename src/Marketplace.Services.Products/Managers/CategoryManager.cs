@@ -46,7 +46,7 @@ public class CategoryManager
 	public async Task<CategoryModel> GetById(Guid categoryId)
 	{
 		var category = await _categoryRepository.GetCategoryById(categoryId);
-		if (category == null) return null!;
+		
 		return ParseCategoryModel(category);
 	}
 
@@ -73,7 +73,6 @@ public class CategoryManager
 	public async Task<string> DeleteCategory(Guid categoryId)
 	{
 		var category = _categoryRepository.GetCategoryById(categoryId);
-		if (category == null!) return "Not found";
 
 		await _categoryRepository.DeleteCategory(await category);
 		return "This category was deleted";
