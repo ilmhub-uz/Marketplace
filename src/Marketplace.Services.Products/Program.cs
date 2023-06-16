@@ -1,5 +1,6 @@
 using Marketplace.Common.Extensions;
 using Marketplace.Common.Loggers;
+using Marketplace.Services.Chat.Middleware;
 using Marketplace.Services.Products.Managers;
 using Marketplace.Services.Products.Repositories;
 using Serilog;
@@ -26,6 +27,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
+app.UseProductChatErrorMiddleware();
 app.UseSwagger();
 app.UseSwaggerUI();
 

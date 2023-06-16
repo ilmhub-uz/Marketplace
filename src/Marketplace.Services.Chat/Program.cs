@@ -4,6 +4,7 @@ using Marketplace.Services.Chat.Context;
 using Marketplace.Services.Chat.Extensions;
 using Marketplace.Services.Chat.Hubs;
 using Marketplace.Services.Chat.Managers;
+using Marketplace.Services.Chat.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -43,6 +44,7 @@ app.UseCors(cors =>
 		.AllowAnyOrigin();
 });
 
+app.UseChatErrorHandlerMiddleware();
 app.MigrateChatDbContext();
 
 app.UseHttpsRedirection();

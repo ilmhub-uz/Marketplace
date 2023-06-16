@@ -43,6 +43,8 @@ app.UseCors(cors =>
 		.AllowAnyOrigin();
 });
 
+app.UseIdentityErrorHandlerMiddleware();
+
 app.MigrateIdentityDb();
 
 app.UseHttpsRedirection();
@@ -51,7 +53,6 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseErrorHandlerMiddleware();
 
 app.MapControllers();
 
