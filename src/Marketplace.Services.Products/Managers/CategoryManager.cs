@@ -55,7 +55,7 @@ public class CategoryManager
 	public async Task<CategoryModel> GetById(int categoryId)
 	{
 		var category = await _categoryRepository.GetCategoryById(categoryId);
-		if (category == null) return null!;
+		
 		return ParseCategoryModel(category);
 	}
 
