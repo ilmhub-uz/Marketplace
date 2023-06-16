@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Blazored.LocalStorage;
 using Marketplace.Organizations.Blazor.Models;
