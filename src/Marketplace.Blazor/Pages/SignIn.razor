@@ -5,14 +5,21 @@
 @using Blazored.LocalStorage
 @using Marketplace.Blazor.Models
 <h3>SignIn</h3>
-<form class="row g-3" style="width: 400px ;margin: auto" >
+<form >
+    <div class="d-flex justify-content-center" style="flex-wrap:wrap;">
+    <div class="form-group row g-3 col-md-5" style="border-radius: 25px;
+    margin-top: 1rem;
+    padding: 2rem;
+    box-shadow: 0 0rem 3rem rgba(8,7,16,0.6)!important;">
     <div>
            <input @bind="_userModel.UserName"  class="form-control" type="text" placeholder="Username"/>
        </div>
     <div>
         <input @bind="_userModel.Password"  class="form-control" type="text" placeholder="Password"/>
     </div>
-    <button class="form-control" type="button" @onclick="( async  ()=> await Login() ) " > Sign Up</button>
+    <button class="form-control" type="button" @onclick="( async  ()=> await Login() ) " > Sign In</button>
+        </div>
+    </div>
 </form>
 @code {
 
