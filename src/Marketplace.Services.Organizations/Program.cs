@@ -25,25 +25,24 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddDbContext<OrganizationsDbContext>(options =>
 {
-	options.UseNpgsql(builder.Configuration.GetConnectionString("OrganizationsDbContext"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("OrganizationsDbContext"));
 });
 builder.Services.AddIdentity(builder.Configuration);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<OrganizationManager>();
 builder.Services.AddScoped<OrganizationUserManager>();
+builder.Services.AddScoped<IMapper, Mapper>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
-
 app.UseCors(cors =>
 {
-	cors.AllowAnyHeader()
-		.AllowAnyMethod()
-		.AllowAnyOrigin();
+    cors.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
 });
 app.MigrateOrganizationDbContext();
 app.UseStaticFiles();
