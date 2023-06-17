@@ -16,34 +16,34 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-    {
-        Description = "JWT Bearer. : \"Authorization: Bearer { token } \"",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey
-    });
+	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+	{
+		Description = "JWT Bearer. : \"Authorization: Bearer { token } \"",
+		Name = "Authorization",
+		In = ParameterLocation.Header,
+		Type = SecuritySchemeType.ApiKey
+	});
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[]{}
-        }
-    });
+	c.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		{
+			new OpenApiSecurityScheme
+			{
+				Reference = new OpenApiReference
+				{
+					Type = ReferenceType.SecurityScheme,
+					Id = "Bearer"
+				}
+			},
+			new string[]{}
+		}
+	});
 });
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddDbContext<OrganizationsDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("OrganizationsDbContext"));
+	options.UseNpgsql(builder.Configuration.GetConnectionString("OrganizationsDbContext"));
 });
 builder.Services.AddIdentity(builder.Configuration);
 builder.Services.AddScoped<OrganizationManager>();
@@ -59,9 +59,9 @@ app.UseSwaggerUI();
 
 app.UseCors(cors =>
 {
-    cors.AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowAnyOrigin();
+	cors.AllowAnyHeader()
+		.AllowAnyMethod()
+		.AllowAnyOrigin();
 });
 app.MigrateOrganizationDbContext();
 app.UseStaticFiles();

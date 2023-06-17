@@ -59,10 +59,10 @@ public class UserManager
     }
 
 
-    public async Task<User?> GetUser(Guid userId)
-    {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-    }
+	public async Task<User?> GetUser(Guid userId)
+	{
+		return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+	}
 
     public async Task<User?> GetUser(string userName)
     {

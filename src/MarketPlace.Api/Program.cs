@@ -33,6 +33,12 @@ app.UseCors(cors =>
 });
 
 app.UseHttpsRedirection();
+app.UseCors(cors =>
+{
+	cors.AllowAnyHeader()
+		.AllowAnyMethod()
+		.AllowAnyOrigin();
+});
 
 app.UseAuthorization();
 

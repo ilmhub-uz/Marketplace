@@ -2,7 +2,7 @@
 
 public class NewMessageModel
 {
-    public Guid ToUserId { get; set; }
+	public Guid ToUserId { get; set; }
 
-    public required string Text { get; set; }
+	public required string Text { get; set; }
 }

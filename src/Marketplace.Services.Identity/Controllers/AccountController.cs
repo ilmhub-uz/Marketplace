@@ -18,31 +18,31 @@ public class AccountController : ControllerBase
         _accountManager = accountManager;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] CreateUserModel createUserModel)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
+	[HttpPost("register")]
+	public async Task<IActionResult> Register([FromBody] CreateUserModel createUserModel)
+	{
+		if (!ModelState.IsValid)
+		{
+			return BadRequest(ModelState);
+		}
 
         var user = await _accountManager.Register(createUserModel);
 
-        return Ok(new UserModel(user));
-    }
+		return Ok(new UserModel(user));
+	}
 
-    [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginUserModel loginUserModel)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
+	[HttpPost("login")]
+	public async Task<IActionResult> Login([FromBody] LoginUserModel loginUserModel)
+	{
+		if (!ModelState.IsValid)
+		{
+			return BadRequest(ModelState);
+		}
 
         var token = await _accountManager.Login(loginUserModel);
 
-        return Ok(new { Token = token });
-    }
+		return Ok(new { Token = token });
+	}
 
   
 }

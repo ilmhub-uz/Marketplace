@@ -4,15 +4,15 @@ namespace Marketplace.Services.Chat.Providers;
 
 public class UserProvider
 {
-    private readonly IHttpContextAccessor _contextAccessor;
+	private readonly IHttpContextAccessor _contextAccessor;
 
-    public UserProvider(IHttpContextAccessor contextAccessor)
-    {
-        _contextAccessor = contextAccessor;
-    }
+	public UserProvider(IHttpContextAccessor contextAccessor)
+	{
+		_contextAccessor = contextAccessor;
+	}
 
-    protected HttpContext? Context => _contextAccessor.HttpContext;
+	protected HttpContext? Context => _contextAccessor.HttpContext;
 
-    public string UserName => Context.User.FindFirstValue(ClaimTypes.Name);
-    public Guid UserId => Guid.Parse(Context.User.FindFirstValue(ClaimTypes.NameIdentifier));
+	public string UserName => Context.User.FindFirstValue(ClaimTypes.Name);
+	public Guid UserId => Guid.Parse(Context.User.FindFirstValue(ClaimTypes.NameIdentifier));
 }

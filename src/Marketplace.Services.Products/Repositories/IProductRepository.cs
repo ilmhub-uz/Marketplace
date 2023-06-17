@@ -1,43 +1,54 @@
 ﻿using Marketplace.Services.Products.Entities;
+using MongoDB.Driver;
 
 namespace Marketplace.Services.Products.Repositories;
 
-
-
 public interface IProductRepository
 {
-    Task AddProduct(Category category, Product product);
-    Task UpdateProduct(Category category, Product product);
-    Task DeleteProduct(Category category, Product product);
-    Task<Product> GetProductById(Category category, Guid productId);
-    Task<List<Product>> GetProducts(Category category);
+	Task AddProduct(Product product);
+	Task UpdateProduct(Product product);
+	Task DeleteProduct(Product product);
+	Task<Product> GetProductById(Guid productId);
+	Task<List<Product>> GetProducts();
 }
 
 public class ProductRepository : IProductRepository
 {
-	public Task AddProduct(Category category, Product product)
+	private readonly IMongoCollection<Product> _products;
+
+	public ProductRepository()
 	{
-		throw new NotImplementedException();
+		var client = new MongoClient("mongodb://root:password@mongodb:27017");
+		var database = client.GetDatabase("products");
+		_products = database.GetCollection<Product>("products");
 	}
 
-	public Task UpdateProduct(Category category, Product product)
+	public async Task AddProduct(Product product)
 	{
-		throw new NotImplementedException();
+		await _products.InsertOneAsync(product);
 	}
 
-	public Task DeleteProduct(Category category, Product product)
+	public async Task UpdateProduct(Product product)
 	{
-		throw new NotImplementedException();
+		var filter = Builders<Product>.Filter.Eq(p => p.Id, product.Id);
+		await _products.ReplaceOneAsync(filter, product);
 	}
 
-	public Task<Product> GetProductById(Category category, Guid productId)
+	public async Task DeleteProduct(Product product)
 	{
-		throw new NotImplementedException();
+		var filter = Builders<Product>.Filter.Eq(p => p.Id, product.Id);
+		await _products.DeleteOneAsync(filter);
 	}
 
-	public Task<List<Product>> GetProducts(Category category)
+	public async Task<Product> GetProductById(Guid productId)
 	{
-		throw new NotImplementedException();
+		var filter = Builders<Product>.Filter.Eq(p => p.Id, productId);
+		return (await _products.FindAsync(filter)).FirstOrDefault();
+	}
+
+	public async Task<List<Product>> GetProducts()
+	{
+		return await (await _products.FindAsync(_ => true)).ToListAsync();
 	}
 }
 
