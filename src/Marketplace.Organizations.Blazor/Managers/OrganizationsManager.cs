@@ -22,4 +22,9 @@ public class OrganizationsManager
 	{
 		await _requestManager.Post<string>("api/organizations", model);
 	}
+
+	//public async Task UpdateOrganization();
+
+
+
 }
