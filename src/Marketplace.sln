@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Organizations.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Categories", "Marketplace.Services.Categories\Categories.csproj", "{1FED2D21-4D1F-4639-830F-A4F227D3BEC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Services.Cart", "Marketplace.Services.Cart\Marketplace.Services.Cart.csproj", "{BD59DBD0-FC41-4B5E-9498-9985B6E17495}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{1FED2D21-4D1F-4639-830F-A4F227D3BEC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FED2D21-4D1F-4639-830F-A4F227D3BEC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FED2D21-4D1F-4639-830F-A4F227D3BEC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD59DBD0-FC41-4B5E-9498-9985B6E17495}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD59DBD0-FC41-4B5E-9498-9985B6E17495}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD59DBD0-FC41-4B5E-9498-9985B6E17495}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD59DBD0-FC41-4B5E-9498-9985B6E17495}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
