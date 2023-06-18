@@ -1,45 +1,43 @@
 ﻿@page "/GetOrganizations"
 @inject HttpClient _httpClient;
 @inject ILocalStorageService _LocalStorageService;
+@inject NavigationManager _navigation;
 @using Marketplace.Organizations.Blazor.Models
 @using Blazored.LocalStorage
 <h3>GetOrganizations</h3>
 <div class="row col-lg-12 col-md-12 col-sm-12 gap-3 d-flex justify-content-center" style="height:50px">
   
-    @foreach(var organization in Organizations){
+    @foreach(var organization in organizations){
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="@organization.Logo" alt="Card image cap">
             <div class="card-body">
                 <h3 class="card-title">@organization.Name</h3>
                 <p class="card-text">@organization.Description</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Contacts:<strong>@organization.Contact</strong></li>
-                @foreach (var address in organization.Addresses!)
-                {
-                    <li class="list-group-item">Location:@address.Address</li>
-                }
-                   @foreach (var user in organization.Users!)
-                   {
-                       <li class="list-group-item">OrganizationId:@user.OrganizationId</li>
-                       <li class="list-group-item">OwnerId:@user.UserId</li>
-                   }
-            </ul>
+            </div> 
+
+            <button type="button" class="btn btn-link" @onclick="async () => await OpenUpdatePage()" >more...</button>
         </div>
     }
 </div>
 @code {
-    private List<OrganizationModel>? Organizations = new List<OrganizationModel>();
+    private List<OrganizationModel>? organizations = new List<OrganizationModel>();
+    private Guid Id;
     protected override async Task OnInitializedAsync()
     {
-        
+
         var token = await _LocalStorageService.GetItemAsStringAsync("token");
         var request = new HttpRequestMessage(HttpMethod.Get, "/organizations/GetOrganizations");
         request.Headers.Add("Authorization",$"Bearer {token}");
         var response = await _httpClient.SendAsync(request);
         if (response.IsSuccessStatusCode)
         {
-            Organizations = await response.Content.ReadFromJsonAsync<List<OrganizationModel>>();
+            organizations = await response.Content.ReadFromJsonAsync<List<OrganizationModel>>();
         }
+    }
+
+    public async Task OpenUpdatePage()
+    {
+        _navigation.NavigateTo($"GetById/{Id}");
+
     }
 }

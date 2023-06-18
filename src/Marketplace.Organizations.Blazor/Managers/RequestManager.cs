@@ -27,7 +27,20 @@ public class RequestManager
 		return await response.Content.ReadFromJsonAsync<T>();
 	}
 
-	public async Task<HttpResponseMessage> SendAsync(string url, HttpMethod method, HttpContent? content = null)
+	public async Task<T?> Put<T>(string url,object body) where T : class
+	{
+		var content = JsonContent.Create(body);
+		var response = await SendAsync(url, HttpMethod.Put, content);
+		return await response.Content.ReadFromJsonAsync<T>();
+	}
+
+    public async Task<T?> Delete<T>(string url, object body) where T : class
+    {
+        var content = JsonContent.Create(body);
+        var response = await SendAsync(url, HttpMethod.Delete, content);
+        return await response.Content.ReadFromJsonAsync<T>();
+    }
+    public async Task<HttpResponseMessage> SendAsync(string url, HttpMethod method, HttpContent? content = null)
 	{
 		var token = await _storage.GetItemAsStringAsync("token");
 
@@ -39,4 +52,5 @@ public class RequestManager
 
 		return await _httpClient.SendAsync(request);
 	}
+ 
 }

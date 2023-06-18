@@ -23,7 +23,11 @@ public class OrganizationsManager
 		await _requestManager.Post<string>("api/organizations", model);
 	}
 
-	//public async Task UpdateOrganization();
+	public async Task UpdateOrganization(OrganizationModel model)
+	{
+		await _requestManager.Put<string>("api/organizations", model);
+	}
+	
 
 
 

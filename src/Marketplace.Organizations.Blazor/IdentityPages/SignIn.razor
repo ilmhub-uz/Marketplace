@@ -1,9 +1,12 @@
 ﻿@page "/SignIn"
-@inject HttpClient Htpp
+@inject HttpClient Http
 @inject ILocalStorageService Storage
 @inject NavigationManager NavigationManager
+
+
 @using Blazored.LocalStorage
 @using Marketplace.Blazor.Models
+@using Marketplace.Organizations.Blazor.Managers;
 <h3>SignIn</h3>
 <form class="row g-3" style="width: 400px ;margin: auto" >
     <div>
@@ -19,19 +22,23 @@
     private  LoginUserModel? _userModel = new LoginUserModel();
     private async Task Login()
     {
-        var response = await Htpp.PostAsJsonAsync("/account/login", _userModel);
+        var response = await Http.PostAsJsonAsync("/account/login", _userModel);
         var token = await response.Content.ReadAsStringAsync();
         await Storage.SetItemAsStringAsync("token", token);
+
+
         if (response.IsSuccessStatusCode)
         {
-            
             var result = await response.Content.ReadFromJsonAsync<LoginResult>();
             if (!string.IsNullOrEmpty(result?.Token))
             {
                 await Storage.SetItemAsStringAsync("token", result.Token);
-                NavigationManager.NavigateTo("/counter");
+                NavigationManager.NavigateTo("/getorganizations");
             }
         }
+
+      
+        NavigationManager.NavigateTo("/profile");
         
     }
     public class LoginResult
