@@ -67,8 +67,8 @@ public static class ServiceCollectionExtensions
 	{
 		services.AddJwt(configuration);
 
-		services.AddScoped<JwtTokenManager>();
-		services.AddScoped<UserManager>();
+        services.AddScoped<JwtTokenManager>();
+        services.AddScoped<AccountManager>();
 
 		services.AddHttpContextAccessor();
 		services.AddScoped<UserProvider>();

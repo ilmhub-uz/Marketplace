@@ -1,19 +1,69 @@
-﻿@page "/Profile"
-@inject HttpClient Http
+﻿@page "/profile"
 @using Blazored.LocalStorage
-@using Marketplace.Blazor.Models
+@using Marketplace.Blazor.AccountModels
+@inject HttpClient Client
 @inject ILocalStorageService Storage
-<h3>Profile</h3>
+@inject NavigationManager NavigationManager
+
+
+<h3 style="text-align: center; color: gold">Profile</h3>
+
+@if (user is not null)
+{
+    <div class="card w-50 mt-2" style="background-color: chartreuse">
+        <div style="color: cornflowerblue" class="card-header">
+            <h5>@user.Name</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">ID:</dt>
+                <dd class="col-sm-9">@user.Id</dd>
+
+                <dt class="col-sm-3">Username:</dt>
+                <dd class="col-sm-9">@user.UserName</dd>
+            </dl>
+        </div>
+    </div>
+
+    <button class="mt-2 btn btn-danger" @onclick="async () => await LogoutAsync()"> Log Out</button>
+    <button class="mt-2 btn btn-primary" @onclick="Update">Update profile</button>
+}
+else
+{
+    <h1 style="color: chocolate">User null</h1>
+}
+
 
 <p>Name: @user?.Name</p>
 @code {
-    User user = new User();
+
+    private UserViewModel? user;
+
     protected override async Task OnInitializedAsync()
     {
         var token = await Storage.GetItemAsStringAsync("token");
+
         var request = new HttpRequestMessage(HttpMethod.Get, "/account/profile");
-        request.Headers.Add("Authorization",$"Bearer {token}");
-        var respones = await Http.SendAsync(request);
-        user = await respones.Content.ReadFromJsonAsync<User>();
+        request.Headers.Add("Authorization", $"Bearer {token}");
+
+        var response = await Client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            user = await response.Content.ReadFromJsonAsync<UserViewModel>();
+        }
+    }
+
+    private async Task LogoutAsync()
+    {
+        await Storage.RemoveItemAsync("token");
+        NavigationManager.NavigateTo("/login");
+        StateHasChanged();
+    }
+
+    private void Update()
+    {
+        NavigationManager.NavigateTo("/update_profile");
+        StateHasChanged();
     }
 }

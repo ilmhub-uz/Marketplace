@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using Marketplace.Blazor.AccountModels
+@using Blazored.LocalStorage
+@inherits LayoutComponentBase
+@inject HttpClient Client
+@inject ILocalStorageService Storage
 
 <div class="page">
     <div class="sidebar">
@@ -6,12 +10,36 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+        
+        @if (string.IsNullOrEmpty(Token))
+        {
+            <div class="top-row px-4">
+                <a class="btn btn-danger" href="login">Login</a>
+            </div>
+        }
+        else
+        {
+            <div class="top-row px-4">
+                <a class="btn btn-primary" href="profile" >Profile</a>
+            </div>
+        }
 
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+
+@code{
+
+    private string? Token { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Token = await Storage.GetItemAsStringAsync("token");
+        StateHasChanged();
+    }
+
+}

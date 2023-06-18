@@ -1,0 +1,54 @@
+﻿@page "/users"
+@using Marketplace.Blazor.AccountModels
+@inject HttpClient Client
+
+
+<h3 style="text-align: center; color: gold">All Users</h3>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (users != null)
+        {
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Id</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">Loading...</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .table-responsive {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+</style>
+
+@code {
+
+    private List<UserModel>? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await Client.GetFromJsonAsync<List<UserModel>>("account/get_all_users");
+    }
+}

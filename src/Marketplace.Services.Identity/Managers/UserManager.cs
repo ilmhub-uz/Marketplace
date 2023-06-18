@@ -8,68 +8,87 @@ namespace Marketplace.Services.Identity.Managers;
 
 public class UserManager
 {
-	private readonly IdentityDbContext _dbContext;
-	private ILogger<UserManager> _logger;
-	private readonly JwtTokenManager _tokenManager;
+    private readonly IdentityDbContext _dbContext;
 
-	public UserManager(
-		JwtTokenManager tokenManager,
-		ILogger<UserManager> logger,
-		IdentityDbContext dbContext)
-	{
-		_tokenManager = tokenManager;
-		_logger = logger;
-		_dbContext = dbContext;
-	}
+    public UserManager(
+        JwtTokenManager tokenManager, 
+        ILogger<AccountManager> logger,
+        IdentityDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
 
-	public async Task<User> Register(CreateUserModel createUserModel)
-	{
-		if (await _dbContext.Users.AnyAsync(u => u.UserName == createUserModel.UserName))
-		{
-			throw new Exception("UserName already exists.");
-		}
+    public async Task<User?> UpdateProfileAsync(Guid userId, UpdateUserModel model)
+    {
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-		var user = new User()
-		{
-			UserName = createUserModel.UserName,
-			Name = createUserModel.Name
-		};
+        if (user == null)
+        {
+            return null;
+        }
 
-		user.PasswordHash = new PasswordHasher<User>().HashPassword(user, createUserModel.Password);
+        user.Name = model.Name ?? user.Name;
+        user.UserName = model.UserName ?? user.UserName;
 
-		_dbContext.Users.Add(user);
-		await _dbContext.SaveChangesAsync();
 
-		return user;
-	}
+        if (model.Password is not null)
+        {
+            user.PasswordHash = new PasswordHasher<User>().HashPassword(user, model.Password);
+        }
 
-	public async Task<string> Login(LoginUserModel loginUserModel)
-	{
-		var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == loginUserModel.UserName);
-		if (user == null)
-		{
-			throw new Exception("UserName or Password is incorrect");
-		}
+        await _dbContext.SaveChangesAsync();
 
-		var result = new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, loginUserModel.Password);
+        return user;
+    }
 
-		if (result != PasswordVerificationResult.Success)
-		{
-			throw new Exception("UserName or Password is incorrect");
-		}
 
-		var token = _tokenManager.GenerateToken(user);
+    public async Task<bool> DeleteUserAsync(Guid userId)
+    {
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-		return token;
-	}
+        if (user == null)
+        {
+            return false;
+        }
+
+        _dbContext.Users.Remove(user);
+
+        await _dbContext.SaveChangesAsync();
+
+        return true;
+    }
+
 
 	public async Task<User?> GetUser(Guid userId)
 	{
 		return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
 	}
 
-	public async Task<User?> GetUser(string userName)
-	{
-		return await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
-	}
+    public async Task<User?> GetUser(string userName)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+    }
+
+    public async Task<List<UserModel>> GetAllUserAsync()
+    {
+        var users = await _dbContext.Users.ToListAsync();
+
+        var userModels = new List<UserModel>();
+
+        foreach (var user in users)
+        {
+            userModels.Add(MapToUserModel(user));
+        }
+
+        return userModels;
+    }
+
+    public UserModel MapToUserModel(User user)
+    {
+        var userModel = new UserModel(user);
+
+        return userModel;
+    }
+
+
 }

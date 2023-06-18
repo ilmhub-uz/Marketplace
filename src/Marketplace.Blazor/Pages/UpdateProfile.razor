@@ -1,0 +1,69 @@
+﻿@page "/update_profile"
+@using Marketplace.Blazor.AccountModels
+@inject HttpClient Client
+@inject NavigationManager NavigationManager
+
+<h3 style="text-align: center; color: gold">Update profile</h3>
+
+
+@if (_successMessage != null)
+{
+    <div class="alert alert-success w-50">@_successMessage</div>
+}
+
+@if (_errorMessage != null)
+{
+    <div class="alert alert-danger w-50">@_errorMessage</div>
+}
+
+<div class="mt-2 w-50 mx-auto p-3" style="background-color: gold">
+    <EditForm Model="@_user" OnValidSubmit="Update">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <InputText id="name" class="form-control" @bind-Value="_user.Name" placeholder="Enter your name" />
+            <ValidationMessage For="@(() => _user.Name)" />
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <InputText id="username" class="form-control" @bind-Value="_user.UserName" placeholder="Enter your username" />
+            <ValidationMessage For="@(() => _user.UserName)" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <InputText id="password" type="password" class="form-control" @bind-Value="_user.Password" placeholder="Enter your password " />
+            <ValidationMessage For="@(() => _user.Password)" />
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <InputText id="confirmPassword" type="password" class="form-control" @bind-Value="_user.ConfirmPassword" placeholder=" Confirm password" />
+            <ValidationMessage For="@(() => _user.ConfirmPassword)" />
+        </div>
+
+        <button type="submit" class="mt-2 btn btn-primary">Register</button>
+    </EditForm>
+</div>
+
+@code {
+    private CreateUserModel _user = new();
+    private string? _successMessage;
+    private string? _errorMessage;
+
+    private void Update()
+    {
+        var response = Client.PostAsJsonAsync("/account/register", _user);
+
+        if (response.Result.IsSuccessStatusCode)
+        {
+            _successMessage = "SignUp successful!";
+            NavigationManager.NavigateTo("/profile");
+        }
+        else
+            _errorMessage = "Response ERROR";
+    }
+}
