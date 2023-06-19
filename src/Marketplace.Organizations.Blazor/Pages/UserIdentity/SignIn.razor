@@ -1,0 +1,33 @@
+﻿@page "/SignIn"
+@inject HttpClient Htpp
+@inject SavedTokenStorageManager manager
+@inject ILocalStorageService Storage
+@inject NavigationManager NavigationManager
+@using Blazored.LocalStorage
+@using Marketplace.Organizations.Blazor.Managers;
+@using Marketplace.Organizations.Blazor.Models;
+<h3>SignIn</h3>
+<form class="row g-3" style="width: 400px ;margin: auto" >
+    <div>
+           <input @bind="_userModel.UserName"  class="form-control" type="text" placeholder="Username"/>
+       </div>
+    <div>
+        <input @bind="_userModel.Password"  class="form-control" type="text" placeholder="Password"/>
+    </div>
+    <button class="form-control" type="button" @onclick="( async  ()=> await Login() ) " > Sign Up</button>
+</form>
+@code {
+
+    private  LoginUserModel? _userModel = new LoginUserModel();
+    private async Task Login()
+    {
+        //var response = await Htpp.PostAsJsonAsync("/account/login", _userModel);
+        //var token = await response.Content.ReadAsStringAsync();
+        //await Storage.SetItemAsStringAsync("token", token);
+
+        await manager.SavedToken(_userModel!);
+
+        NavigationManager.NavigateTo("/Profile");
+    }
+    
+}
