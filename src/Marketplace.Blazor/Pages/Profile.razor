@@ -3,9 +3,11 @@
 @using Blazored.LocalStorage
 @using Marketplace.Blazor.Models
 @inject ILocalStorageService Storage
+
 <h3>Profile</h3>
 
 <p>Name: @user?.Name</p>
+
 @code {
     User user = new User();
     protected override async Task OnInitializedAsync()
