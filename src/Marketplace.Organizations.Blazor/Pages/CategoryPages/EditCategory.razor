@@ -1,0 +1,60 @@
+﻿@page "/editCategory/{categoryId}"
+@inject CategoryService CategoryService
+@inject NavigationManager NavigationManager
+<h3>Edit  Category</h3>
+
+@{
+    if (category != null)
+    {
+        <EditForm Model="category" class="row g-3" OnInvalidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <ValidationSummary></ValidationSummary>
+            <div>
+                <label for="name">Name</label>
+                <InputText id="name" @bind-Value="category.Name"></InputText>
+            </div>
+
+            <div>
+                <label for="ParentId">ParentId</label>
+                <InputText id="ParentId" @bind-Value="category.ForGuid"></InputText>
+            </div>
+
+            <button type="submit" class="btn btn-primary" @onclick="OnValidSubmit">Save</button>
+            <button type="submit" class="btn btn-primary" @onclick="OnCancel">Cancel</button>
+        </EditForm>
+    }
+}
+
+
+
+@code {
+
+    [Parameter]
+    public string CategoryId { get; set; }
+
+    private CreateCategoryModel? category;
+
+    protected override void OnInitialized()
+    {
+        category = new CreateCategoryModel();
+    }
+
+    protected override async void OnParametersSet()
+    {
+        if (Guid.TryParse(this.CategoryId, out Guid iCategoryId))
+        {
+            if (category != null) await CategoryService.UpdateCategory(iCategoryId, category);
+        }
+    }
+
+    private void OnValidSubmit()
+    {
+        NavigationManager.NavigateTo("/categories");
+    }
+
+    private void OnCancel()
+    {
+        NavigationManager.NavigateTo("/categories");
+    }
+
+}

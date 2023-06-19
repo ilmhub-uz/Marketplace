@@ -1,0 +1,71 @@
+﻿@page "/getCategoryById"
+@inject CategoryService CategoryService
+<h3>Get Category by id</h3>
+<div>
+    <input type="text" @bind="id" placeholder="categoryId"/>
+    <button type="button" class="btn btn-primary" @onclick="async () => await GetCategory()">Get</button>
+</div>
+@{
+    if (categoryModel != null)
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th>CategoryId</th>
+                <th>Description</th>
+                <th>Child categories</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td>@categoryModel.Id</td>
+                    <td>@categoryModel.Name</td>
+                    <td>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>CategoryId</th>
+                                <th>Description</th>
+                                <th>Child categories</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var childCategory in categoryModel.ChildCategories)
+                                {
+                                    <tr>
+                                            <td>@childCategory.Id</td>
+                                            <td>@childCategory.Name</td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            
+            </tbody>
+        </table>
+    }
+}
+@code {
+    private Guid categoryId;
+    private string? id;
+    private CategoryModel? categoryModel;
+    private async Task GetCategory()
+    {
+        if (id != null)
+        {
+            categoryId = Guid.Parse(id);
+            categoryModel= await CategoryService.GetCategoryById(categoryId);
+        }
+    }
+}

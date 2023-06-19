@@ -22,7 +22,7 @@ public class CategoriesController : ControllerBase
 	}
 
 	[HttpGet("{categoryId}")]
-	public async Task<IActionResult> GetById(int categoryId)
+	public async Task<IActionResult> GetById(Guid categoryId)
 	{
 		return Ok(await _categoryManager.GetById(categoryId));
 	}
@@ -34,13 +34,13 @@ public class CategoriesController : ControllerBase
 	}
 
 	[HttpPut("{categoryId}")]
-	public async Task<IActionResult> UpdateCategory(CreateCategoryModel? model, int categoryId)
+	public async Task<IActionResult> UpdateCategory(CreateCategoryModel? model, Guid categoryId)
 	{
 		return Ok(await _categoryManager.UpdateCategory(model, categoryId));
 	}
 
 	[HttpDelete("{categoryId}")]
-	public async Task<IActionResult> DeleteCategory(int categoryId)
+	public async Task<IActionResult> DeleteCategory(Guid categoryId)
 	{
 		return Ok(await _categoryManager.DeleteCategory(categoryId));
 	}

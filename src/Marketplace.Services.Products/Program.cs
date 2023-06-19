@@ -30,7 +30,12 @@ var app = builder.Build();
 app.UseProductChatErrorMiddleware();
 app.UseSwagger();
 app.UseSwaggerUI();
-
+app.UseCors(cors =>
+{
+    cors.AllowAnyHeader();
+    cors.AllowAnyMethod();
+    cors.AllowAnyOrigin();
+});
 app.UseStaticFiles();
 
 app.UseHttpsRedirection();
