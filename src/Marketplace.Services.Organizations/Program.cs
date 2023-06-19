@@ -1,44 +1,26 @@
-using AutoMapper;
+using Marketplace.Common.Extensions;
+using Marketplace.Common.Loggers;
 using Marketplace.Services.Organizations.Context;
 using Marketplace.Services.Organizations.Extensions;
 using Marketplace.Services.Organizations.Managers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
-});
+
+
+var logger = CustomLogger
+    .WriteLogToFileSendToTelegram(builder.Configuration, "OrganizationLogger.txt");
+
+builder.Logging.AddSerilog(logger);
+
+builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-    {
-        Description = "JWT Bearer. : \"Authorization: Bearer { token } \"",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey
-    });
+builder.Services.AddSwaggerGenWithToken();
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[]{}
-        }
-    });
-});
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddDbContext<OrganizationsDbContext>(options =>
