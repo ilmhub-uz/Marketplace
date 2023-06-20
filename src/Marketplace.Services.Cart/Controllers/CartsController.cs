@@ -30,7 +30,6 @@ namespace Marketplace.Services.Cart.Controllers
             return Ok();
         }
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Product>))]
         public async Task<IActionResult> GetUserCart() =>
             Ok(await _cartService.GetUserCartAsync(User.FindFirst(ClaimTypes.NameIdentifier)!.Value));
 
