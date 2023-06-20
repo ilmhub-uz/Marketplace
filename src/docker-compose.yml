@@ -104,6 +104,22 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
+  cart:
+    image: cart
+    container_name: cart
+    build:
+        context: .
+        dockerfile: Dockerfile.Cart
+    ports:
+        - '8090:80'
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - cache:/data
 
 
 volumes:
@@ -111,4 +127,6 @@ volumes:
   identity_db_data:
   organization_db_data:
   organization_data:
-  product_data:  
+  product_data:
+  cache:
+    driver: local

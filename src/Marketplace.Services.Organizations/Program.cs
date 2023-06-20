@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text.Json.Serialization;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,7 @@ app.UseCors(cors =>
         .AllowAnyMethod()
         .AllowAnyOrigin();
 });
+
 app.MigrateOrganizationDbContext();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
